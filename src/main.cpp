@@ -5,6 +5,7 @@
 #include "Debug.h"
 #include "Defines.h"
 #include "MAX72XX.h"
+#include "CommandParser.h"
 
 extern MCP23017 io1;
 extern MCP23017 io2;
@@ -39,8 +40,9 @@ void setup()
 
   //------------------------------------------------------Write any test code above here since the while below will halt code---------------------------------------------------------------------------------------------
     
-  Serial.begin(115200); // Initialize Serial connection to mod  
-    
+  Serial.begin(115200); // Initialize Serial connection to Raspbery pi
+  Serial.setTimeout(1000);
+
   
 }
 
@@ -48,5 +50,16 @@ void loop()
 {  
   updateAnalogs();
   updateDigitals();
-  Joystick.sendState(); //Send joystick updated states to the PC      
+  Joystick.sendState(); //Send joystick updated states to the PC
+  if (Serial.available())
+  {
+      uint8_t command[4];
+      if (Serial.readBytesUntil('\n', command, 4))
+      {
+          parseCommand(command);
+      }   
+  
+  }
+
+           
 }
