@@ -1,28 +1,28 @@
 #include "CommandParser.h"
-#include "MAX72XX.h"
+#include "Arduino.h"
 
-extern MAX72XX led;
-
-void parseCommand(uint8_t cmd[4])
+void parseCommand(uint8_t message[])
 {
-    switch (cmd[0]) // Command type recieved from Rpi
+    if (sizeof(message) > MAX_MESSAGE_LENGTH)
     {
-        case 0:  // Test mode. Not implemented yet
-            
-            break;
-            
-        case 1:  // Turn on LED command type
-            led.SetLed(cmd[1], cmd[2], cmd[3], true);
-            break;
+        return;
+    }
 
-        case 2:  // Turn OFF LED command type
-            led.SetLed(cmd[1], cmd[2], cmd[3], false);
-            break;
+    else 
+    {
+        uint8_t command_type = message[0];
+        uint8_t command_arg_1 = message[1];
+        uint8_t command_arg_2 = message[2];
 
-        case 3: // Bar graph LED command type
-            led.Show_in_bar(cmd[1], cmd[2], cmd[3]);
-            break;
-        
-    } 
+        switch(command_type)
+        {
+            case 0: // LED test placeholder
+                break;
+
+            case 1:  // LED ON 
+                
+                
+                
+        } 
+    }
 }
-    
