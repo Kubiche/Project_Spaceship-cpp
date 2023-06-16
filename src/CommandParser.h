@@ -1,7 +1,8 @@
 #pragma once
 #include "Arduino.h"
+#include "MAX72XX.h"
 
-#define MAX_MESSAGE_LENGTH 4
 
+#define MESSAGE_LENGTH 4
 
-void parseCommand(uint8_t cmd[]);
+void parseCommand(uint8_t message[]);

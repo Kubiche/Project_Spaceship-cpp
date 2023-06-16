@@ -3,7 +3,7 @@
 #include <spi.h>
 
 
- void MAX72XX::Begin(int cs)
+ void MAX72XX::Begin(int cs, int LED_Devices)
 {
   led_cs_ = cs;
   number_of_devices_ = LED_Devices;  
