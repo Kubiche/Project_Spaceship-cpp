@@ -20,13 +20,13 @@
 
 
 //the number of cascaded MAX72XX devices.
-#define LED_Devices 2
+
 
 
 class MAX72XX
 {
 public:
-    void Begin(int cs);
+    void Begin(int cs,int LED_Devices);
 
     //functions to control led rows at a time
     void SetLedReg(uint8_t device, uint16_t opcode, uint16_t val);
@@ -40,6 +40,6 @@ public:
 private:
     int led_cs_;
     uint8_t number_of_devices_;
-    uint8_t digit_[LED_Devices][8] = {0}; //array to store the max72xx digit values to be used by the leds per device
+    uint8_t digit_[8][8] = {0}; //array to store the max72xx digit values to be used by the leds per device
 };      
  
