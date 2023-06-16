@@ -36,7 +36,7 @@ void setup()
   io1.Begin(IO1_I2C_ADDRESS, IO1_INT_PIN);
   io2.Begin(IO2_I2C_ADDRESS, IO2_INT_PIN);
   adc.Begin(9);
-  led.Begin(LED_CS); 
+  led.Begin(LED_CS, 2); 
 
   //------------------------------------------------------Write any test code above here since the while below will halt code---------------------------------------------------------------------------------------------
     
