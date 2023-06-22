@@ -2,7 +2,6 @@
 #include <HID.h>
 #include <Wire.h>
 #include "Inputs.h"
-#include "Debug.h"
 #include "Defines.h"
 #include "MAX72XX.h"
 #include "CommandParser.h"
