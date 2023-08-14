@@ -4,20 +4,14 @@
 
 
 
-MCP23017 io1;
-MCP23017 io2;
+extern MCP23017 io1;
+extern MCP23017 io2;
 
-MCP300X adc;
+extern MCP300X adc;
 
 unsigned long analog_last_read = 0; // variable to store the time of the last analog value read.
 
-// Create the Joystick
-Joystick_ Joystick(0x05,0x04,
-  32, 0,                    //  Button Count, Hat Switch Count
-  true, true, true,     //  X and Y and Z Axis
-  true, true, true,        //  Rx, Ry, or Rz
-  false, true,            //  rudder or throttle
-  false, false, false);    //  accelerator, brake, or steering
+extern Joystick_ Joystick;
 
 void updateAnalogs()   //read analog values and update accordingly.
 {  
