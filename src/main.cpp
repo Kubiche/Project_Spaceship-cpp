@@ -14,7 +14,7 @@ MCP23017 io2(IO2_I2C_ADDRESS, IO2_INT_PIN);
 MCP300X adc(9);
 
 
-MAX72XX led;
+MAX72XX led(LED_CS, 2);
 
 // Create the Joystick. Autoupdate set to false in setup()
 Joystick_ Joystick(0x05,0x04,
@@ -42,7 +42,7 @@ void setup()
 
   
    
-  led.Begin(LED_CS, 2); 
+  //led.Begin(LED_CS, 2); 
 
   //------------------------------------------------------Write any test code above here since the while below will halt code---------------------------------------------------------------------------------------------
     
