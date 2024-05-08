@@ -27,7 +27,7 @@ Joystick_ Joystick(0x05,0x04,
 
 void setup() 
 {  
-   Serial.begin(115200); 
+    
   
 
   debugln("MAIN WAIT");
@@ -47,7 +47,7 @@ void setup()
   //------------------------------------------------------Write any test code above here since the while below will halt code---------------------------------------------------------------------------------------------
     
   Serial.begin(115200); // Initialize Serial connection to Raspbery pi
-  Serial.setTimeout(1000);
+  
 
   
 }

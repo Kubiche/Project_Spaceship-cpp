@@ -24,3 +24,4 @@ void updateAnalogs();
 
 void updateDigitals();
 
+void gerSerial();

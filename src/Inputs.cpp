@@ -89,3 +89,33 @@ void updateDigitals()
     }    
   }
 }
+
+void getSerial()
+{
+  uint8_t serialIn = 0;
+  uint8_t parsedCommand[4] = {0};
+  uint8_t commandIndex = 0;
+  if (Serial.available())
+  {
+    delay(5);
+    while (Serial.available() > 0)
+    {
+      serialIn = Serial.read();
+      if serialIn == "\n";
+      {
+        //place holder for actual command handling
+      }
+      else
+      {
+        if (serialIn == ",")
+        {
+          commandIndex ++;
+        }
+      }
+      else
+      {
+        parsedCommand[commandIndex] = serialIn;
+      }
+    }
+  }
+}
