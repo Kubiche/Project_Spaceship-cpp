@@ -17,7 +17,7 @@ MCP300X adc(9);
 MAX72XX led(LED_CS, 2);
 
 // Create the Joystick. Autoupdate set to false in setup()
-Joystick_ Joystick(0x05,0x04,
+Joystick_ Joystick(0x03,0x04,
   32, 0,                    //  Button Count, Hat Switch Count
   true, true, true,     //  X and Y and Z Axis
   true, true, true,        //  Rx, Ry, or Rz
