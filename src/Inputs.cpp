@@ -101,16 +101,13 @@ void getSerial()
     while (Serial.available() > 0)
     {
       serialIn = Serial.read();
-      if serialIn == "\n";
+      if (serialIn == 0x0A) // Compare to the /n expected at the end of the command recieved from the pi
       {
         //place holder for actual command handling
       }
-      else
+      else if (serialIn == 0x2C) // Compare to the "," expected as separator in the command from the pi
       {
-        if (serialIn == ",")
-        {
-          commandIndex ++;
-        }
+        commandIndex ++;        
       }
       else
       {

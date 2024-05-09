@@ -4,7 +4,7 @@
 #include "Inputs.h"
 #include "Defines.h"
 #include "MAX72XX.h"
-#include "CommandParser.h"
+
 
 //Instanciation and intialization of the IO chips
 MCP23017 io1(IO1_I2C_ADDRESS, IO1_INT_PIN);
@@ -56,16 +56,5 @@ void loop()
 {  
   updateAnalogs();
   updateDigitals();
-  Joystick.sendState(); //Send joystick updated states to the PC
-  if (Serial.available())
-  {
-      uint8_t command[4];
-      if (Serial.readBytesUntil('\n', command, 4))
-      {
-          parseCommand(command);
-      }   
-  
-  }
-
-           
+  Joystick.sendState(); //Send joystick updated states to the PC           
 }
