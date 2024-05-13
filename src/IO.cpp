@@ -96,23 +96,32 @@ void getSerialCommand()
   if (Serial.available())
   {
     uint8_t command[3] = {0};
-    delay(5); // Delay to allow all the data to come in
+    uint8_t index = 0;
+    delay(5); // Delay to allow all the data to come in    
     while (Serial.available() > 0)
-    {
-      uint8_t index = 0;
-      uint8_t charIn = 0;
-      charIn = Serial.read();
-      if (charIn == 10) // If received decimal 10 ("/n") used as terminator, decode the command
+    {      
+      uint8_t charIn = Serial.read();      
+      if (charIn == 13) // If received the terminator character, decode the command
       {
+        while (Serial.available() > 0 ) // If buffer still holds data
+        {
+          Serial.read(); // Empty the buffer
+        }
+        debug("CMD: ");
+        debug(command[0]);
+        debug(",");
+        debug(command[1]);
+        debug(",");
+        debugln(command[2]);
         decodeCommand(command[0], command[1], command[2]);
       }
       else if (charIn == 44) // If recieved decimal 44 (",") used as data separator, ignore and increase the index
       {
-        index ++;
+        index = index + 1;
       }
       else
       {
-        command[index] = charIn;
+        command[index] = charIn - '0'; // get the actual number sent, not just the ASCII code.
       }
 
     }
@@ -131,6 +140,7 @@ void getIO()
 {
   updateAnalogs();
   updateDigitals();
+  getSerialCommand();
 }
 
 void pushIO()
