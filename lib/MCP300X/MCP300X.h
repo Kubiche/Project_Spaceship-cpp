@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MCP300X_H_
+#define MCP300X_H_
 
 #include <Arduino.h>
 
@@ -14,3 +15,5 @@ private:
   uint8_t adc_cs_;
 
 };
+
+#endif

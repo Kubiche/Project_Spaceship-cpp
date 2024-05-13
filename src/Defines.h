@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DEFINES_H_
+#define DEFINES_H_
 
 //#define DEBUG 
 
@@ -17,8 +18,9 @@
 
 
 //device number in order from last to first on cascade
-#define Controller_v2 1
-#define Controller_v3 0
+
+#define LED_bars_board 1 
+#define LED_single_board 0 
 
 
 #define ANALOG_CHECK_INTERVAL 5 // Analog read interval to prevent USB saturation.
@@ -29,3 +31,5 @@
 #define IO2_INT_PIN 4
 
 #define BOOT_MODE_PIN 8
+
+#endif

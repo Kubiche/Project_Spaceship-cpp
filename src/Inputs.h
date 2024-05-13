@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INPUTS_H_
+#define INPUTS_H_
 
 #include <Joystick.h>
 #include <MCP23X17.h>
@@ -23,3 +24,5 @@ extern MCP23017 io1;
 void updateAnalogs();
 
 void updateDigitals();
+
+#endif

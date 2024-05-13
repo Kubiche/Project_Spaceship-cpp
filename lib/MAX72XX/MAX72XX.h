@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MAXX72XX_H_
+#define MAXX72XX_H_
 
 #include <spi.h>
 
@@ -43,3 +44,4 @@ private:
     uint8_t digit_[LED_Devices][8] = {0}; //array to store the max72xx digit values to be used by the leds per device
 };      
  
+#endif

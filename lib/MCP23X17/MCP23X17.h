@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MCP23X17_H_
+#define MCP23X17_H_
 
 #include <Arduino.h>
 
@@ -37,3 +38,5 @@ private:
     int device_address_;
     int interrupt_pin_;    
 };
+
+#endif
