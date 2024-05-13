@@ -1,11 +1,14 @@
-#include "Inputs.h"
-#include "Defines.h"
+#include "IO.h"
+#include "debug.h"
+
 
 
 MCP23017 io1;
 MCP23017 io2;
 
 MCP300X adc;
+
+MAX72XX led;
 
 unsigned long analog_last_read = 0; // variable to store the time of the last analog value read.
 
@@ -16,6 +19,17 @@ Joystick_ Joystick(0x05,0x04,
   true, true, true,        //  Rx, Ry, or Rz
   false, true,            //  rudder or throttle
   false, false, false);    //  accelerator, brake, or steering
+
+void initIO()
+{
+  Wire.begin();
+  SPI.begin();  
+  io1.begin(IO1_I2C_ADDRESS, IO1_INT_PIN);
+  io2.begin(IO2_I2C_ADDRESS, IO2_INT_PIN);
+  adc.begin(ADC_CS_PIN);
+  led.begin(LED_CS);
+  Joystick.begin(false);
+}
 
 void updateAnalogs()   //read analog values and update accordingly.
 {  
@@ -74,4 +88,9 @@ void updateDigitals()
       } 
     }    
   }
+}
+
+void pushJoystickState()
+{
+  Joystick.sendState();
 }
