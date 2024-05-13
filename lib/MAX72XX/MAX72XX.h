@@ -3,6 +3,8 @@
 
 #include <spi.h>
 
+#define MAX_DEVICES 4 // Hardcoded limit of devices that can be used.
+
 //the opcodes for the MAX7221 and MAX7219
 #define OP_NOOP   0x00
 #define OP_DIGIT0 0x01
@@ -20,14 +22,10 @@
 #define OP_DISPLAYTEST 0x0F
 
 
-//the number of cascaded MAX72XX devices.
-#define LED_Devices 2
-
-
 class MAX72XX
 {
 public:
-    void begin(int cs);
+    void begin(int cs, uint8_t devices);
 
     //functions to control led rows at a time
     void setLedReg(uint8_t device, uint16_t opcode, uint16_t val);
@@ -41,7 +39,7 @@ public:
 private:
     int led_cs_;
     uint8_t number_of_devices_;
-    uint8_t digit_[LED_Devices][8] = {0}; //array to store the max72xx digit values to be used by the leds per device
+    uint8_t digit_[MAX_DEVICES][8] = {0}; //array to store the max72xx digit values per device.
 };      
  
 #endif

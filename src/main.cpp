@@ -5,14 +5,11 @@
 
 void setup() 
 { 
-  initIO();  
-          
-
+  initIO();
 }
 
 void loop() 
 {   
-  updateAnalogs();
-  updateDigitals();
-  pushJoystickState();      
+  getIO();
+  pushIO();      
 }

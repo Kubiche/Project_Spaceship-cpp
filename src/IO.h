@@ -25,10 +25,6 @@
 // The SPI Slave Select pin for the led controller
 #define LED_CS 10
 
-//device number in order from last to first on cascade
-#define LED_bars_board 1 
-#define LED_single_board 0
-
 extern unsigned long analog_last_read;
 
 void updateAnalogs();
@@ -37,6 +33,12 @@ void updateDigitals();
 
 void initIO();
 
-void pushJoystickState();
+void getIO();
+
+void pushIO();
+
+void getSerialCommand();
+
+void decodeCommand(uint8_t a, uint8_t b, uint8_t c);
 
 #endif

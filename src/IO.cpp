@@ -23,11 +23,12 @@ Joystick_ Joystick(0x05,0x04,
 void initIO()
 {
   Wire.begin();
-  SPI.begin();  
+  SPI.begin();
+  Serial.begin(115200);  
   io1.begin(IO1_I2C_ADDRESS, IO1_INT_PIN);
   io2.begin(IO2_I2C_ADDRESS, IO2_INT_PIN);
   adc.begin(ADC_CS_PIN);
-  led.begin(LED_CS);
+  led.begin(LED_CS,2);
   Joystick.begin(false);
 }
 
@@ -90,7 +91,49 @@ void updateDigitals()
   }
 }
 
-void pushJoystickState()
+void getSerialCommand()
+{
+  if (Serial.available())
+  {
+    uint8_t command[3] = {0};
+    delay(5); // Delay to allow all the data to come in
+    while (Serial.available() > 0)
+    {
+      uint8_t index = 0;
+      uint8_t charIn = 0;
+      charIn = Serial.read();
+      if (charIn == 10) // If received decimal 10 ("/n") used as terminator, decode the command
+      {
+        decodeCommand(command[0], command[1], command[2]);
+      }
+      else if (charIn == 44) // If recieved decimal 44 (",") used as data separator, ignore and increase the index
+      {
+        index ++;
+      }
+      else
+      {
+        command[index] = charIn;
+      }
+
+    }
+  }
+}
+
+void decodeCommand(uint8_t a, uint8_t b, uint8_t c)
+{
+  if (a == 0)
+  {
+
+  }
+}
+
+void getIO()
+{
+  updateAnalogs();
+  updateDigitals();
+}
+
+void pushIO()
 {
   Joystick.sendState();
 }
