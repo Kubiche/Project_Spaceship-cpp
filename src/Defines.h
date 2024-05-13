@@ -1,6 +1,6 @@
 #pragma once
 
-//#define DEBUG
+//#define DEBUG 
 
 #ifdef DEBUG
 #define debug(x) Serial.print(x)
@@ -10,7 +10,7 @@
 #define debug(x)
 #define debugln(x)
 #define debuglnB(x) 
-#endif 
+#endif   
 
 // The SPI Slave Select pin for the led controller
 #define LED_CS 10

@@ -2,16 +2,20 @@
 #include "Defines.h"
 
 
+MCP23017 io1;
+MCP23017 io2;
 
-
-extern MCP23017 io1;
-extern MCP23017 io2;
-
-extern MCP300X adc;
+MCP300X adc;
 
 unsigned long analog_last_read = 0; // variable to store the time of the last analog value read.
 
-extern Joystick_ Joystick;
+// Create the Joystick
+Joystick_ Joystick(0x05,0x04,
+  32, 0,                    //  Button Count, Hat Switch Count
+  true, true, true,     //  X and Y and Z Axis
+  true, true, true,        //  Rx, Ry, or Rz
+  false, true,            //  rudder or throttle
+  false, false, false);    //  accelerator, brake, or steering
 
 void updateAnalogs()   //read analog values and update accordingly.
 {  
@@ -42,20 +46,12 @@ void updateDigitals()
   if (!digitalRead(IO1_INT_PIN)) //check for interrupt pin from io expander chip to see if any changes in states.
   {
     unsigned int flags = io1.ReadIntFlag(); //read the interrupt flags to see which pin/s trigerred the interrupt
-    unsigned int inputs = io1.ReadGPIOs();  //read the states of the gpio pins
-    debug("Flags : ");
-    debuglnB(flags);
-    debug("inputs: ");
-    debuglnB(inputs);
+    unsigned int inputs = io1.ReadGPIOs();  //read the states of the gpio pins    
     for (unsigned int i = 0; i < 16; i++)
     {      
       unsigned int mask = (1 << i);      
       if (flags & mask)
-      {
-        debug("i: ");
-        debugln(i);
-        debug("mask: ");
-        debuglnB(mask);
+      {        
         bool state = inputs & mask; //cast the bitwise and of the flagged bit and the read bit into a boolean to acomodate the byte allowed by the library function.
         Joystick.setButton(i, state); //update the state of the button associated with the pin/s that trigerred the interrupt
         debug("state: ");
@@ -67,52 +63,15 @@ void updateDigitals()
   if (!digitalRead(IO2_INT_PIN)) //check for interrupt pin from io expander chip to see if any changes in states.
   {
     unsigned int flags = io2.ReadIntFlag(); //read the interrupt flags to see which pin/s trigerred the interrupt
-    unsigned int inputs = io2.ReadGPIOs();  //read the states of the gpio pins
-    debug("Flags : ");
-    debuglnB(flags);
-    debug("inputs: ");
-    debuglnB(inputs);
+    unsigned int inputs = io2.ReadGPIOs();  //read the states of the gpio pins    
     for (unsigned int i = 0; i < 16; i++)
     {      
       unsigned int mask = (1 << i);      
       if (flags & mask)
-      {
-        debug("i: ");
-        debugln((i+16));
-        debug("mask: ");
-        debuglnB(mask);
+      {        
         bool state = inputs & mask; //cast the bitwise and of the flagged bit and the read bit into a boolean to acomodate the byte allowed by the library function.
-        Joystick.setButton((i + 16), state); //update the state of the button associated with the pin/s that trigerred the interrupt
-        debug("state: ");
-        debugln(state);
+        Joystick.setButton((i + 16), state); //update the state of the button associated with the pin/s that trigerred the interrupt        
       } 
     }    
-  }
-}
-
-void getSerial()
-{
-  uint8_t serialIn = 0;
-  uint8_t parsedCommand[4] = {0};
-  uint8_t commandIndex = 0;
-  if (Serial.available())
-  {
-    delay(5);
-    while (Serial.available() > 0)
-    {
-      serialIn = Serial.read();
-      if (serialIn == 0x0A) // Compare to the /n expected at the end of the command recieved from the pi
-      {
-        //place holder for actual command handling
-      }
-      else if (serialIn == 0x2C) // Compare to the "," expected as separator in the command from the pi
-      {
-        commandIndex ++;        
-      }
-      else
-      {
-        parsedCommand[commandIndex] = serialIn;
-      }
-    }
   }
 }

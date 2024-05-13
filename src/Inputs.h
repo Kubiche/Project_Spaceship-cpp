@@ -23,5 +23,3 @@ extern MCP23017 io1;
 void updateAnalogs();
 
 void updateDigitals();
-
-void gerSerial();

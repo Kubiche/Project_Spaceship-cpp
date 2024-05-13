@@ -7,7 +7,7 @@ class MCP300X
 
 public:
 
-  MCP300X(uint8_t cs);
+  void Begin(uint8_t cs);
   unsigned int Read(uint8_t channel);
 
 private:
