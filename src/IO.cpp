@@ -28,7 +28,7 @@ void initIO()
   io1.begin(IO1_I2C_ADDRESS, IO1_INT_PIN);
   io2.begin(IO2_I2C_ADDRESS, IO2_INT_PIN);
   adc.begin(ADC_CS_PIN);
-  led.begin(LED_CS,2);
+  led.begin(LED_CS, 2);
   Joystick.begin(false);
 }
 
