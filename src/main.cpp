@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include "IO.h"
-#include "debug.h"
 
 
 void setup() 

@@ -23,7 +23,9 @@
 #define BOOT_MODE_PIN 8
 
 // The SPI Slave Select pin for the led controller
+#define LED_DEV_COUNT 2
 #define LED_CS 10
+
 
 extern unsigned long analog_last_read;
 

@@ -28,7 +28,7 @@ void initIO()
   io1.begin(IO1_I2C_ADDRESS, IO1_INT_PIN);
   io2.begin(IO2_I2C_ADDRESS, IO2_INT_PIN);
   adc.begin(ADC_CS_PIN);
-  led.begin(LED_CS, 2);
+  led.begin(LED_CS, LED_DEV_COUNT);
   Joystick.begin(false);
 }
 
@@ -132,7 +132,12 @@ void decodeCommand(uint8_t a, uint8_t b, uint8_t c)
 {
   if (a == 0)
   {
-
+    for (int i = 0; i <= LED_DEV_COUNT; i++)
+    {
+      led.setLedReg(i, OP_DISPLAYTEST, 1);
+      delay(5000);    
+      led.setLedReg(i, OP_DISPLAYTEST, 0);
+    }
   }
 }
 
