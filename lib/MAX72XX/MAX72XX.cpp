@@ -37,7 +37,7 @@ void MAX72XX::setRegister(uint8_t device, uint16_t opcode, uint16_t val)
 
 void MAX72XX::setLed(uint8_t device, uint8_t dig, uint8_t seg, bool state)
 {
-  uint8_t mask = 0b10000000 >> (seg-1);
+  uint8_t mask = 0b10000000 >> (seg);
   if ((digit_[device][dig] & mask) != state){
     digit_[device][dig] ^= mask; 
     setRegister(device, (dig + 1), digit_[device][dig]);    
@@ -84,12 +84,5 @@ void MAX72XX::showInBar(uint8_t device, uint8_t bar,uint8_t value)
 
 void MAX72XX::setLedByNumber(uint8_t device, int led_number, bool state)
 {
-  if (led_number > 0 & led_number < 9) // fits in the first digit
-  {     
-    setLed(device, 1, led_number, state);
-  }
-  else if (led_number > 8 & led_number < 17) // fits in the second digit
-  {
-    setLed(device, 2, )
-  }
+  setLed(device, (led_number / 8), (led_number % 8), state); // divided to get the digit on the MAX72XX (0-7) and modulo used to figure out the segment (0-7) 
 } 
