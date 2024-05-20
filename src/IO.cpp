@@ -134,9 +134,9 @@ void decodeCommand(uint8_t a, uint8_t b, uint8_t c)
   {
     for (int i = 0; i <= LED_DEV_COUNT; i++)
     {
-      led.setLedReg(i, OP_DISPLAYTEST, 1);
+      led.setRegister(i, OP_DISPLAYTEST, 1);
       delay(5000);    
-      led.setLedReg(i, OP_DISPLAYTEST, 0);
+      led.setRegister(i, OP_DISPLAYTEST, 0);
     }
   }
 }

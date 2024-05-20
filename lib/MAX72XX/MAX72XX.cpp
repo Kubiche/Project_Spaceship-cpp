@@ -10,16 +10,16 @@
   digitalWrite(led_cs_, HIGH); // Set CS pin to High  
   for (uint8_t i = 0; i < number_of_devices_; i++)
   {    
-    setLedReg(i, OP_SHUTDOWN, 1); // Turn LED controller on
-    setLedReg(i, OP_SCANLIMIT, 7); // set to scan all digit_s
-    setLedReg(i, OP_INTENSITY, 2); // Set intensity to 2 of 16
-    setLedReg(i, OP_DISPLAYTEST, 1);
+    setRegister(i, OP_SHUTDOWN, 1); // Turn LED controller on
+    setRegister(i, OP_SCANLIMIT, 7); // set to scan all digit_s
+    setRegister(i, OP_INTENSITY, 2); // Set intensity to 2 of 16
+    setRegister(i, OP_DISPLAYTEST, 1);
     delay(1000);    
-    setLedReg(i, OP_DISPLAYTEST, 0);
+    setRegister(i, OP_DISPLAYTEST, 0);
   }  
 }
 
-void MAX72XX::setLedReg(uint8_t device, uint16_t opcode, uint16_t val) 
+void MAX72XX::setRegister(uint8_t device, uint16_t opcode, uint16_t val) 
 {
   uint16_t led_buffer[number_of_devices_] = {0};
   led_buffer[device] = opcode;
@@ -40,7 +40,7 @@ void MAX72XX::setLed(uint8_t device, uint8_t dig, uint8_t seg, bool state)
   uint8_t mask = 0b10000000 >> (seg-1);
   if ((digit_[device][dig] & mask) != state){
     digit_[device][dig] ^= mask; 
-    setLedReg(device, (dig + 1), digit_[device][dig]);    
+    setRegister(device, (dig + 1), digit_[device][dig]);    
   }
 }
 
@@ -75,10 +75,21 @@ void MAX72XX::showInBar(uint8_t device, uint8_t bar,uint8_t value)
     barlevel &= Kfullbar[index];  // Apply modified mask
     digit_[device][bar_top_byte] &= ~Kfullbar[index]; // Apply LSBits of actual mask to the top byte of the bar 
     digit_[device][bar_top_byte] |= barlevel;     // Apply the LSBits of the value to the top byte of bar
-    setLedReg(device, top_digit_opcode, digit_[device][bar_top_byte]); // Send the new value of the top byte of the bar to the proper digit
+    setRegister(device, top_digit_opcode, digit_[device][bar_top_byte]); // Send the new value of the top byte of the bar to the proper digit
     digit_[device][bar_bottom_byte] &= ~Kfullbar[index] >> 8;      // Apply MSBits of mask to the bottom byte of the bar
     digit_[device][bar_bottom_byte] |= barlevel >> 8;          // Apply the MSBits of the value to the bottom byte of the bar
-    setLedReg(device, bottom_digit_opcode, digit_[device][bar_bottom_byte]);     //  Send the new value of the bottom byte to the propper digit
+    setRegister(device, bottom_digit_opcode, digit_[device][bar_bottom_byte]);     //  Send the new value of the bottom byte to the propper digit
   }
 }     
-    
+
+void MAX72XX::setLedByNumber(uint8_t device, int led_number, bool state)
+{
+  if (led_number > 0 & led_number < 9) // fits in the first digit
+  {     
+    setLed(device, 1, led_number, state);
+  }
+  else if (led_number > 8 & led_number < 17) // fits in the second digit
+  {
+    setLed(device, 2, )
+  }
+} 

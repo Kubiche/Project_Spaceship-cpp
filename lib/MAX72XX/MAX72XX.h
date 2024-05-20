@@ -28,13 +28,15 @@ public:
     void begin(int cs, uint8_t devices);
 
     //functions to control led rows at a time
-    void setLedReg(uint8_t device, uint16_t opcode, uint16_t val);
+    void setRegister(uint8_t device, uint16_t opcode, uint16_t val);
 
     //Funtion for individual led toggling
     void setLed(uint8_t device, uint8_t dig, uint8_t seg, bool state);
 
     // functions to diplay mapped values into 10 segment led bars
     void showInBar(uint8_t device, uint8_t bar, uint8_t value);
+    
+    void setLedByNumber( uint8_t device, int led_number, bool state);
   
 private:
     int led_cs_;
