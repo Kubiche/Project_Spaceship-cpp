@@ -128,15 +128,13 @@ void getSerialCommand()
   }
 }
 
-void decodeCommand(uint8_t a, uint8_t b, uint8_t c)
+void decodeCommand(uint8_t command_type, uint8_t command, uint8_t value)
 {
-  if (a == 0)
+  if (command_type == 0) // If command type is: "display test"
   {
     for (int i = 0; i <= LED_DEV_COUNT; i++)
     {
-      led.setRegister(i, OP_DISPLAYTEST, 1);
-      delay(5000);    
-      led.setRegister(i, OP_DISPLAYTEST, 0);
+      led.setRegister(i, OP_DISPLAYTEST, value);      
     }
   }
 }

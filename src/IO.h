@@ -41,6 +41,6 @@ void pushIO();
 
 void getSerialCommand();
 
-void decodeCommand(uint8_t a, uint8_t b, uint8_t c);
+void decodeCommand(uint8_t command_type, uint8_t command, uint8_t value);
 
 #endif
