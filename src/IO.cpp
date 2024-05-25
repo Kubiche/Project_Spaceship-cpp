@@ -101,7 +101,7 @@ void getSerialCommand()
     while (Serial.available() > 0)
     {      
       uint8_t charIn = Serial.read();      
-      if (charIn == 13) // If received the terminator character, decode the command
+      if (charIn == '\n') // If received the terminator character, decode the command
       {
         while (Serial.available() > 0 ) // If buffer still holds data
         {
@@ -115,7 +115,7 @@ void getSerialCommand()
         debugln(command[2]);
         decodeCommand(command[0], command[1], command[2]);
       }
-      else if (charIn == 44) // If recieved decimal 44 (",") used as data separator, ignore and increase the index
+      else if (charIn == ',') // If recieved decimal 44 (",") used as data separator, ignore and increase the index
       {
         index = index + 1;
       }
