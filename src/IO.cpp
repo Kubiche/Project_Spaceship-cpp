@@ -5,14 +5,16 @@
 
 MCP23017 io1;
 MCP23017 io2;
-
 MCP300X adc;
-
 MAX72XX led;
 
-unsigned long analog_last_read = 0; // variable to store the time of the last analog value read.
+// Variable to store the time of the last analog value read.
+unsigned long analog_last_read = 0; 
 
-// Create the Joystick
+/**
+ * @brief The Joystick object with 32 buttons 6 axis and a Throttle
+ * 
+ */
 Joystick_ Joystick(0x05,0x04,
   32, 0,                    //  Button Count, Hat Switch Count
   true, true, true,     //  X and Y and Z Axis
@@ -20,6 +22,10 @@ Joystick_ Joystick(0x05,0x04,
   false, true,            //  rudder or throttle
   false, false, false);    //  accelerator, brake, or steering
 
+/**
+ * @brief Sets up the Input/Output devices 
+ * 
+ */
 void initIO()
 {
   Wire.begin();
@@ -32,7 +38,11 @@ void initIO()
   Joystick.begin(false);
 }
 
-void updateAnalogs()   //read analog values and update accordingly.
+/**
+ * @brief Gets the Analog reads from the ADC at defined intervals
+ * 
+ */
+void updateAnalogs()   
 {  
   if ((millis() - analog_last_read) > ANALOG_CHECK_INTERVAL)
   {
@@ -56,11 +66,15 @@ void updateAnalogs()   //read analog values and update accordingly.
   }    
 }
 
+/**
+ * @brief Check if the interrup flags from the MCP23017 is set, reads the interrupt flag and gets the GPIO values.
+ * 
+ */
 void updateDigitals()
 {
   if (!digitalRead(IO1_INT_PIN)) //check for interrupt pin from io expander chip to see if any changes in states.
   {
-    unsigned int flags = io1.ReadIntFlag(); //read the interrupt flags to see which pin/s trigerred the interrupt
+    unsigned int flags = io1.ReadIntFlag(); //read the interrupt flags to see which pins trigerred the interrupt
     unsigned int inputs = io1.ReadGPIOs();  //read the states of the gpio pins    
     for (unsigned int i = 0; i < 16; i++)
     {      
@@ -74,7 +88,6 @@ void updateDigitals()
       } 
     }    
   }
-
   if (!digitalRead(IO2_INT_PIN)) //check for interrupt pin from io expander chip to see if any changes in states.
   {
     unsigned int flags = io2.ReadIntFlag(); //read the interrupt flags to see which pin/s trigerred the interrupt
@@ -91,6 +104,10 @@ void updateDigitals()
   }
 }
 
+/**
+ * @brief check if the serial buffer contains a command and if so, reads the bytes until the termination char (/n)
+ * 
+ */
 void getSerialCommand()
 {
   if (Serial.available())
@@ -128,21 +145,32 @@ void getSerialCommand()
   }
 }
 
+/**
+ * @brief Decodes the command to issue to the peripherals
+ * 
+ * @param command_type The command type 0: Display-Test | 1: Show on LED bar | 2: Control LED
+ * @param command LED number, Bar number to control
+ * @param value ON(True)/OFF(False) or 0-10 for led-bars
+ */
 void decodeCommand(uint8_t command_type, uint8_t command, uint8_t value)
 {
-  if (command_type == 0) // If command type is: "display test"
+  if (command_type == 0) 
   {
     for (int i = 0; i <= LED_DEV_COUNT; i++)
     {
       led.setRegister(i, OP_DISPLAYTEST, value);      
     }
   }
-  if (command_type == 2) // command type "Control LED"
+  if (command_type == 2)
   {
     led.setLedByNumber(1, command, value);
   }
 }
 
+/**
+ * @brief Gets the Input/Output from peripherals
+ * 
+ */
 void getIO()
 {
   updateAnalogs();
@@ -150,6 +178,10 @@ void getIO()
   getSerialCommand();
 }
 
+/**
+ * @brief Updates the input changes to the computer
+ * 
+ */
 void pushIO()
 {
   Joystick.sendState();

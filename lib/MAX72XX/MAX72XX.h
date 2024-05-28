@@ -3,7 +3,7 @@
 
 #include <spi.h>
 
-// Hardcoded limit of cascaded devices in use.
+// defined limit of cascaded devices in use.
 #define MAX_DEVICES 2
 /////////////////////////////////////////////////////////////////MAX72XX Registers////////////////////////////////////////////////////////
 //No-Op register address
