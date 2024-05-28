@@ -3,15 +3,17 @@
 
 #include <Arduino.h>
 
+/**
+ * @brief Class for the Analog to Digital converter MCP300X IC
+ * 
+ */
 class MCP300X
 {
-
 public:
-
   void begin(uint8_t cs);
   unsigned int Read(uint8_t channel);
-
 private:
+  // Object variable containing the ADC IC Chip Select pin
   uint8_t adc_cs_;
 
 };
