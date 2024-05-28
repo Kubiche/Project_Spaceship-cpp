@@ -137,6 +137,10 @@ void decodeCommand(uint8_t command_type, uint8_t command, uint8_t value)
       led.setRegister(i, OP_DISPLAYTEST, value);      
     }
   }
+  if (command_type == 2) // command type "Control LED"
+  {
+    led.setLedByNumber(1, command, value);
+  }
 }
 
 void getIO()
