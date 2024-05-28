@@ -1,6 +1,12 @@
 #include "MCP23X17.h"
 #include <Wire.h>
 
+/**
+ * @brief Sets up the device for 
+ * 
+ * @param I2C_address 
+ * @param interrupt_pin 
+ */
 void MCP23017::begin(uint8_t I2C_address, uint8_t interrupt_pin)
 {
     device_address_ = I2C_address;

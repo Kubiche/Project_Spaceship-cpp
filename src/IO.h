@@ -10,20 +10,23 @@
 #include <Wire.h>
 
 
-
-#define ANALOG_CHECK_INTERVAL 5 // Analog read interval to prevent USB saturation.
-
-#define IO1_I2C_ADDRESS 0x21
+// Analog read interval to prevent USB saturation.
+#define ANALOG_CHECK_INTERVAL 5 
+// I2C address of the first IO IC
+#define IO1_I2C_ADDRESS 0x21 
+// I2C address of the second IO IC
 #define IO2_I2C_ADDRESS 0x22
+// Interrup Pin for the first IO IC
 #define IO1_INT_PIN 5
+// Interrup Pin for the second IO IC
 #define IO2_INT_PIN 4
-
+// The Chip Select pin for the ADC IC
 #define ADC_CS_PIN 9
-
+// Pin for an optional boot mode
 #define BOOT_MODE_PIN 8
-
-// The SPI Slave Select pin for the led controller
+// The number of devices cascaded including the first
 #define LED_DEV_COUNT 2
+// The SPI Slave Select pin for the led controller
 #define LED_CS 10
 
 
