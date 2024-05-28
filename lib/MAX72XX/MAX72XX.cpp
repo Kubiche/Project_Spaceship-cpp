@@ -53,7 +53,7 @@ void MAX72XX::setRegister(uint8_t device, uint16_t opcode, uint16_t val)
  * @param device The device number 0-N
  * @param dig The digit number 0-7
  * @param seg The segment number 0(DP)-7(G)
- * @param state The state, ON or OFF
+ * @param state The state, ON(TRUE) or OFF(FALSE)
  */
 void MAX72XX::setLed(uint8_t device, uint8_t dig, uint8_t seg, bool state) 
 {
@@ -109,11 +109,11 @@ void MAX72XX::showInBar(uint8_t device, uint8_t bar,uint8_t value)
 }     
 
 /**
- * @brief Sets the desired LED to ON or OFF based on a number 0-
+ * @brief Sets the desired LED to ON or OFF based on a number 1-64
  * 
  * @param device The device number 0-N
  * @param led_number The LED number 1-64
- * @param state The state ON or OFF
+ * @param state The state ON(TRUE) or OFF(FALSE)
  */
 void MAX72XX::setLedByNumber(uint8_t device, int led_number, bool state)
 {
