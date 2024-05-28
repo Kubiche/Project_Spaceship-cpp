@@ -2,7 +2,7 @@
 #include <Wire.h>
 
 /**
- * @brief Sets up the device for 
+ * @brief Configures the device
  * 
  * @param I2C_address 
  * @param interrupt_pin 
@@ -58,7 +58,12 @@ void MCP23017::begin(uint8_t I2C_address, uint8_t interrupt_pin)
     Wire.endTransmission();
 }
 
-unsigned int MCP23017::ReadGPIOs() //reads the state of the gpio pins
+/**
+ * @brief Reads the state of the GPIO pins
+ * 
+ * @return unsigned int state of the GPIO pins on port A and B in one. B on the MSB
+ */
+unsigned int MCP23017::ReadGPIOs() 
 { 
   unsigned int gpio = 0;
   Wire.beginTransmission(device_address_);
@@ -75,7 +80,12 @@ unsigned int MCP23017::ReadGPIOs() //reads the state of the gpio pins
   return gpio;
 }
 
-unsigned int MCP23017::ReadIntFlag() //reads teh interrup flag for the gpios
+/**
+ * @brief Gets the interrupt flag registers value, on which set bits means that a pin caused an interrupt
+ * 
+ * @return unsigned int containing the interrupt flag registers value with the port B on the MSB
+ */
+unsigned int MCP23017::ReadIntFlag() 
 {
   Wire.beginTransmission(device_address_);
   Wire.write(MCP23017_INTFB);
