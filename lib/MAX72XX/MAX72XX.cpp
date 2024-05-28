@@ -1,7 +1,12 @@
 #include "MAX72XX.h"
 #include <spi.h>
 
-
+/**
+ * @brief sets up the Chip Select pin to HIGH and sends a "Display Test" for 1 second
+ * 
+ * @param cs Chip Select pin of the device or cascaded devices
+ * @param devices the number of devices
+ */
  void MAX72XX::begin(int cs, uint8_t devices)
 {
   led_cs_ = cs;
@@ -19,6 +24,13 @@
   }  
 }
 
+/**
+ * @brief Sets a register in the MAX7219 or MAX7221 device
+ * 
+ * @param device The device number 0-N  
+ * @param opcode The address of the register to set
+ * @param val The value to set in the register
+ */
 void MAX72XX::setRegister(uint8_t device, uint16_t opcode, uint16_t val) 
 {
   uint16_t led_buffer[number_of_devices_] = {0};
@@ -35,7 +47,15 @@ void MAX72XX::setRegister(uint8_t device, uint16_t opcode, uint16_t val)
   SPI.endTransaction();
 }
 
-void MAX72XX::setLed(uint8_t device, uint8_t dig, uint8_t seg, bool state)
+/**
+ * @brief This function sets an led to ON or OFF based on the device, digit and segment it's tied to.
+ * 
+ * @param device The device number 0-N
+ * @param dig The digit number 0-7
+ * @param seg The segment number 0(DP)-7(G)
+ * @param state The state, ON or OFF
+ */
+void MAX72XX::setLed(uint8_t device, uint8_t dig, uint8_t seg, bool state) 
 {
   uint8_t mask = 0b10000000 >> (seg);
   if ((digit_[device][dig] & mask) != state){
@@ -44,7 +64,13 @@ void MAX72XX::setLed(uint8_t device, uint8_t dig, uint8_t seg, bool state)
   }
 }
 
-// This function applies a mask to the byte/digit_ controlling the lower and upper part of each led bar and set a value on it leaving the ones for other bars alone
+/**
+ * @brief Sets the LED bars on my custom hardware to show a level 0-10
+ * 
+ * @param device The device number 0-N
+ * @param bar the bar number 0-6
+ * @param value the value to show 0-10
+ */
 void MAX72XX::showInBar(uint8_t device, uint8_t bar,uint8_t value)
 { 
   // Bars indexed from left to right from 1 to 6 
@@ -82,7 +108,15 @@ void MAX72XX::showInBar(uint8_t device, uint8_t bar,uint8_t value)
   }
 }     
 
+/**
+ * @brief Sets the desired LED to ON or OFF based on a number 0-
+ * 
+ * @param device The device number 0-N
+ * @param led_number The LED number 1-64
+ * @param state The state ON or OFF
+ */
 void MAX72XX::setLedByNumber(uint8_t device, int led_number, bool state)
 {
-  setLed(device, (led_number / 8), (led_number % 8), state); // divided to get the digit on the MAX72XX (0-7) and modulo used to figure out the segment (0-7) 
+  
+  setLed(device, ((led_number - 1) / 8), (led_number % 8), state); // divided to get the digit on the MAX72XX (0-7) and modulo used to figure out the segment (0-7) 
 } 
