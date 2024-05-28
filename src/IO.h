@@ -30,13 +30,12 @@
 #define LED_CS 10
 
 
-extern unsigned long analog_last_read;
 void updateAnalogs();
 void updateDigitals();
 void initIO();
 void getIO();
 void pushIO();
 void getSerialCommand();
-void decodeCommand(uint8_t command_type, uint8_t command, uint8_t value);
+void decodeCommand(int command_type, int command, int value);
 
 #endif

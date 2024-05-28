@@ -112,12 +112,12 @@ void getSerialCommand()
 {
   if (Serial.available())
   {
-    uint8_t command[3] = {0};
+    int command[3] = {0};
     uint8_t index = 0;
     delay(5); // Delay to allow all the data to come in    
     while (Serial.available() > 0)
     {      
-      uint8_t charIn = Serial.read();      
+      int charIn = Serial.read();      
       if (charIn == '\n') // If received the terminator character, decode the command
       {
         while (Serial.available() > 0 ) // If buffer still holds data
@@ -146,22 +146,35 @@ void getSerialCommand()
 }
 
 /**
+ * @brief Command Type Enumerator
+ * 
+ */
+enum Command_Type : int
+{
+  Display_Test = 0, LED_Bar = 1, LED = 2
+};
+
+/**
  * @brief Decodes the command to issue to the peripherals
  * 
- * @param command_type The command type 0: Display-Test | 1: Show on LED bar | 2: Control LED
- * @param command LED number, Bar number to control
+ * @param command_type Command Type
+ * @param command LED number or Bar number to control
  * @param value ON(True)/OFF(False) or 0-10 for led-bars
  */
-void decodeCommand(uint8_t command_type, uint8_t command, uint8_t value)
+void decodeCommand(int command_type, int command, int value)
 {
-  if (command_type == 0) 
+  if (command_type == Display_Test) 
   {
     for (int i = 0; i <= LED_DEV_COUNT; i++)
     {
       led.setRegister(i, OP_DISPLAYTEST, value);      
     }
   }
-  if (command_type == 2)
+  if (command_type == LED_Bar)
+  {
+
+  }
+  if (command_type == LED)
   {
     led.setLedByNumber(1, command, value);
   }
