@@ -172,7 +172,7 @@ void decodeCommand(int command_type, int command, int value)
   }
   if (command_type == LED_Bar)
   {
-
+    led.showInBar(2, command, value);
   }
   if (command_type == LED)
   {
