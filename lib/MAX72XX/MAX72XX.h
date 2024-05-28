@@ -3,9 +3,8 @@
 
 #include <spi.h>
 
-// Hardcoded limit of devices that can be used.
-#define MAX_DEVICES 4
-
+// Hardcoded limit of cascaded devices in use.
+#define MAX_DEVICES 2
 /////////////////////////////////////////////////////////////////MAX72XX Registers////////////////////////////////////////////////////////
 //No-Op register address
 #define OP_NOOP   0x00
@@ -51,9 +50,12 @@ public:
     void setLedByNumber( uint8_t device, int led_number, bool state);
   
 private:
+    // Object variable for the Chip Select pin
     int led_cs_;
+    // Object variable for the number of devices attached
     uint8_t number_of_devices_;
-    uint8_t digit_[MAX_DEVICES][8] = {0}; //array to store the max72xx digit values per device.
+    //Object array to store the max72xx digit values per device to not override others on changes
+    uint8_t digit_[MAX_DEVICES][8] = {0}; 
 };      
  
 #endif

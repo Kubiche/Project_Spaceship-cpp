@@ -17,7 +17,7 @@
   {    
     setRegister(i, OP_SHUTDOWN, 1); // Turn LED controller on
     setRegister(i, OP_SCANLIMIT, 7); // set to scan all digit_s
-    setRegister(i, OP_INTENSITY, 2); // Set intensity to 2 of 16
+    setRegister(i, OP_INTENSITY, 8); // Set intensity 0-16
     setRegister(i, OP_DISPLAYTEST, 1);
     delay(1000);    
     setRegister(i, OP_DISPLAYTEST, 0);
