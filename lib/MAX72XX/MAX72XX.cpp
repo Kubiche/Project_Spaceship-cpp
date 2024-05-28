@@ -117,6 +117,8 @@ void MAX72XX::showInBar(uint8_t device, uint8_t bar,uint8_t value)
  */
 void MAX72XX::setLedByNumber(uint8_t device, int led_number, bool state)
 {
-  
-  setLed(device, ((led_number - 1) / 8), (led_number % 8), state); // divided to get the digit on the MAX72XX (0-7) and modulo used to figure out the segment (0-7) 
+  // Zero based the number for the MAX72XX device
+  uint8_t zero_based_number = led_number - 1;
+  // divided to get the digit on the MAX72XX (0-7) and modulo used to figure out the segment (0-7) 
+  setLed(device, (zero_based_number / 8), (zero_based_number % 8), state); 
 } 
