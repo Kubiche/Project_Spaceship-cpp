@@ -47,7 +47,7 @@ void updateAnalogs()
   if ((millis() - analog_last_read) > ANALOG_CHECK_INTERVAL)
   {
     unsigned int channel[8];
-    for (uint8_t i = 0; i < 7; i++)
+    for (unsigned char i = 0; i < 7; i++)
     {
       channel[i] = adc.Read(i); //Read all channels of the ADC IC and store it in the array
       //debug("channel");
@@ -112,25 +112,35 @@ void getSerialCommand()
 {
   if (Serial.available())
   {
-    int command[3] = {0};
-    uint8_t index = 0;
+    unsigned char command[3];
+    command[0] = 0;
+    command[1] = 0;
+    command[2] = 0;
+    unsigned char index = 0;
     delay(5); // Delay to allow all the data to come in    
     while (Serial.available() > 0)
     {      
-      int charIn = Serial.read();      
+      unsigned char charIn = Serial.read();
+      //debugln(charIn);      
       if (charIn == '\n') // If received the terminator character, decode the command
       {
         while (Serial.available() > 0 ) // If buffer still holds data
         {
           Serial.read(); // Empty the buffer
         }
+        unsigned char sample = 1;
+        debug("sample: ");
+        debug(sample);
+        debugln();
         debug("CMD: ");
         debug(command[0]);
         debug(",");
         debug(command[1]);
         debug(",");
-        debugln(command[2]);
+        debug(command[2]);
+        debugln();
         decodeCommand(command[0], command[1], command[2]);
+        return;
       }
       else if (charIn == ',') // If recieved decimal 44 (",") used as data separator, ignore and increase the index
       {
@@ -138,21 +148,14 @@ void getSerialCommand()
       }
       else
       {
-        command[index] = charIn - '0'; // get the actual number sent, not just the ASCII code.
+        unsigned char ascii_zero = 48;
+        command[index] = (charIn - ascii_zero); // get the actual number sent, not just the ASCII code.
+        debugln(command[index]);
       }
 
     }
   }
 }
-
-/**
- * @brief Command Type Enumerator
- * 
- */
-enum Command_Type : int
-{
-  Display_Test = 0, LED_Bar = 1, LED = 2
-};
 
 /**
  * @brief Decodes the command to issue to the peripherals
@@ -161,11 +164,12 @@ enum Command_Type : int
  * @param command LED number or Bar number to control
  * @param value ON(True)/OFF(False) or 0-10 for led-bars
  */
-void decodeCommand(int command_type, int command, int value)
+void decodeCommand(unsigned char command_type, unsigned char command,unsigned char value)
 {
+  enum : unsigned char {Display_Test = 0, LED_Bar = 1, LED = 2 };
   if (command_type == Display_Test) 
   {
-    for (int i = 0; i <= LED_DEV_COUNT; i++)
+    for (unsigned char i = 0; i <= LED_DEV_COUNT; i++)
     {
       led.setRegister(i, OP_DISPLAYTEST, value);      
     }

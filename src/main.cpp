@@ -9,7 +9,7 @@ This code is still under construction.
 void setup() 
 { 
   initIO();
-  debugln("Setup Complete")
+  debugln("Setup Complete");  
 }
 
 void loop() 

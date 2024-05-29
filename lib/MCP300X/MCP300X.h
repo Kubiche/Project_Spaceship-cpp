@@ -10,11 +10,11 @@
 class MCP300X
 {
 public:
-  void begin(uint8_t cs);
-  unsigned int Read(uint8_t channel);
+  void begin(unsigned char cs);
+  unsigned int Read(unsigned char channel);
 private:
   // Object variable containing the ADC IC Chip Select pin
-  uint8_t adc_cs_;
+  unsigned char adc_cs_;
 
 };
 

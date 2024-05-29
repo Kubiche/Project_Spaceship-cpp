@@ -36,6 +36,6 @@ void initIO();
 void getIO();
 void pushIO();
 void getSerialCommand();
-void decodeCommand(int command_type, int command, int value);
+void decodeCommand(unsigned char command_type, unsigned char command, unsigned char value);
 
 #endif

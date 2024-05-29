@@ -43,19 +43,19 @@
 class MAX72XX
 {
 public:
-    void begin(int cs, uint8_t devices);    
-    void setRegister(uint8_t device, uint16_t opcode, uint16_t val);  
-    void setLed(uint8_t device, uint8_t dig, uint8_t seg, bool state);    
-    void showInBar(uint8_t device, uint8_t bar, uint8_t value);    
-    void setLedByNumber( uint8_t device, int led_number, bool state);
+    void begin(int cs, unsigned char devices);    
+    void setRegister(unsigned char device, uint16_t opcode, uint16_t val);  
+    void setLed(unsigned char device, unsigned char dig, unsigned char seg, bool state);    
+    void showInBar(unsigned char device, unsigned char bar, unsigned char value);    
+    void setLedByNumber( unsigned char device, int led_number, bool state);
   
 private:
     // Object variable for the Chip Select pin
     int led_cs_;
     // Object variable for the number of devices attached
-    uint8_t number_of_devices_;
+    unsigned char number_of_devices_;
     //Object array to store the max72xx digit values per device to not override others on changes
-    uint8_t digit_[MAX_DEVICES][8] = {0}; 
+    unsigned char digit_[MAX_DEVICES][8] = {0}; 
 };      
  
 #endif
