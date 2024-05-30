@@ -8,7 +8,7 @@ MCP23017 io2;
 MCP300X adc;
 MAX72XX led;
 
-int command_buffer[3] ={0};
+int command_buffer[3] ={0}; // Buffer to hold the commands as they come from the serial interface.
 
 // Variable to store the time of the last analog value read.
 unsigned long analog_last_read = 0; 
@@ -156,23 +156,23 @@ void getSerialCommand()
  * @param command LED number or Bar number to control
  * @param value ON(True)/OFF(False) or 0-10 for led-bars
  */
-void decodeCommand(int command_type, int command,int value)
+void decodeCommand()
 {
   enum : int {Display_Test = 0, LED_Bar = 1, LED = 2 };
   if (command_buffer[0] == Display_Test) 
   {
     for (unsigned char i = 0; i <= LED_DEV_COUNT; i++)
     {
-      led.setRegister(i, OP_DISPLAYTEST, value);      
+      led.setRegister(i, OP_DISPLAYTEST, command_buffer[2]);      
     }
   }
   if (command_buffer[0] == LED_Bar)
   {
-    led.showInBar(2, command, value);
+    led.showInBar(2, command_buffer[1], command_buffer[2]);
   }
   if (command_buffer[0] == LED)
   {
-    led.setLedByNumber(1, command, value);
+    led.setLedByNumber(1, command_buffer[1], command_buffer[2]);
   }
 }
 
