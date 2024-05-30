@@ -8,6 +8,8 @@ MCP23017 io2;
 MCP300X adc;
 MAX72XX led;
 
+int command_buffer[3] ={0};
+
 // Variable to store the time of the last analog value read.
 unsigned long analog_last_read = 0; 
 
@@ -110,8 +112,7 @@ void getSerialCommand()
 {
   if (Serial.available())
   {
-    char charIn = 0;
-    int command[3] = {0};
+    char charIn = 0;    
     unsigned char index = 0;
     delay(5); // Delay to allow all the data to come in    
     while (Serial.available() > 0)
@@ -125,13 +126,13 @@ void getSerialCommand()
           Serial.read(); // Empty the buffer
         }
         debug("CMD: ");
-        debug(command[0]);
+        debug(command_buffer[0]);
         debug(",");
-        debug(command[1]);
+        debug(command_buffer[1]);
         debug(",");
-        debug(command[2]);
+        debug(command_buffer[2]);
         debugln();
-        decodeCommand(command[0], command[1], command[2]);
+        decodeCommand();
         return;
       }
       else if (charIn == ',') // If recieved decimal 44 (",") used as data separator, ignore and increase the index
@@ -140,8 +141,8 @@ void getSerialCommand()
       }
       else
       {        
-        command[index] = (charIn - '0'); // get the actual number sent, not just the ASCII code.
-        debugln(command[index]);
+        command_buffer[index] = (charIn - '0'); // get the actual number sent, not just the ASCII code.
+        debugln(command_buffer[index]);
       }
 
     }
@@ -158,18 +159,18 @@ void getSerialCommand()
 void decodeCommand(int command_type, int command,int value)
 {
   enum : int {Display_Test = 0, LED_Bar = 1, LED = 2 };
-  if (command_type == Display_Test) 
+  if (command_buffer[0] == Display_Test) 
   {
     for (unsigned char i = 0; i <= LED_DEV_COUNT; i++)
     {
       led.setRegister(i, OP_DISPLAYTEST, value);      
     }
   }
-  if (command_type == LED_Bar)
+  if (command_buffer[0] == LED_Bar)
   {
     led.showInBar(2, command, value);
   }
-  if (command_type == LED)
+  if (command_buffer[0] == LED)
   {
     led.setLedByNumber(1, command, value);
   }
