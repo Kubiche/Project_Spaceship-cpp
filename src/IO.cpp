@@ -132,8 +132,7 @@ void getSerialCommand()
         debug(",");
         debug(command_buffer[2]);
         debugln();
-        decodeCommand();
-        return;
+        decodeCommand();        
       }
       else if (charIn == ',') // If recieved decimal 44 (",") used as data separator, ignore and increase the index
       {
