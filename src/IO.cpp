@@ -82,9 +82,7 @@ void updateDigitals()
       if (flags & mask)
       {        
         bool state = inputs & mask; //cast the bitwise and of the flagged bit and the read bit into a boolean to acomodate the byte allowed by the library function.
-        Joystick.setButton(i, state); //update the state of the button associated with the pin/s that trigerred the interrupt
-        debug("state: ");
-        debugln(state);
+        Joystick.setButton(i, state); //update the state of the button associated with the pin/s that trigerred the interrupt        
       } 
     }    
   }
@@ -112,15 +110,13 @@ void getSerialCommand()
 {
   if (Serial.available())
   {
-    unsigned char command[3];
-    command[0] = 0;
-    command[1] = 0;
-    command[2] = 0;
+    char charIn = 0;
+    int command[3] = {0};
     unsigned char index = 0;
     delay(5); // Delay to allow all the data to come in    
     while (Serial.available() > 0)
     {      
-      unsigned char charIn = Serial.read();
+      charIn = Serial.read();
       //debugln(charIn);      
       if (charIn == '\n') // If received the terminator character, decode the command
       {
@@ -128,10 +124,6 @@ void getSerialCommand()
         {
           Serial.read(); // Empty the buffer
         }
-        unsigned char sample = 1;
-        debug("sample: ");
-        debug(sample);
-        debugln();
         debug("CMD: ");
         debug(command[0]);
         debug(",");
@@ -144,12 +136,11 @@ void getSerialCommand()
       }
       else if (charIn == ',') // If recieved decimal 44 (",") used as data separator, ignore and increase the index
       {
-        index = index + 1;
+        index++;
       }
       else
-      {
-        unsigned char ascii_zero = 48;
-        command[index] = (charIn - ascii_zero); // get the actual number sent, not just the ASCII code.
+      {        
+        command[index] = (charIn - '0'); // get the actual number sent, not just the ASCII code.
         debugln(command[index]);
       }
 
@@ -164,9 +155,9 @@ void getSerialCommand()
  * @param command LED number or Bar number to control
  * @param value ON(True)/OFF(False) or 0-10 for led-bars
  */
-void decodeCommand(unsigned char command_type, unsigned char command,unsigned char value)
+void decodeCommand(int command_type, int command,int value)
 {
-  enum : unsigned char {Display_Test = 0, LED_Bar = 1, LED = 2 };
+  enum : int {Display_Test = 0, LED_Bar = 1, LED = 2 };
   if (command_type == Display_Test) 
   {
     for (unsigned char i = 0; i <= LED_DEV_COUNT; i++)
