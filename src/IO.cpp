@@ -8,7 +8,7 @@ MCP23017 io2;
 MCP300X adc;
 MAX72XX led;
 
-int command_buffer[3] ={0}; // Buffer to hold the commands as they come from the serial interface.
+unsigned char command_buffer[3] ={0}; // Buffer to hold the commands as they come from the serial interface.
 
 // Variable to store the time of the last analog value read.
 unsigned long analog_last_read = 0; 
@@ -114,6 +114,10 @@ void getSerialCommand()
   {
     char charIn = 0;    
     unsigned char index = 0;
+    for (unsigned char i = 0; i < (sizeof(command_buffer) / (sizeof(command_buffer[0]))); i++) 
+    {
+      command_buffer[i] = 0; // zero out the buffer
+    }
     delay(5); // Delay to allow all the data to come in    
     while (Serial.available() > 0)
     {      
@@ -132,7 +136,14 @@ void getSerialCommand()
         debug(",");
         debug(command_buffer[2]);
         debugln();
-        decodeCommand();        
+        if (index == 2) // crude way of checking the command length
+        {  
+          decodeCommand();
+        }
+        else
+        {
+          debugln("Null Command");
+        }                
       }
       else if (charIn == ',') // If recieved decimal 44 (",") used as data separator, ignore and increase the index
       {
@@ -140,8 +151,7 @@ void getSerialCommand()
       }
       else
       {        
-        command_buffer[index] = (charIn - '0'); // get the actual number sent, not just the ASCII code.
-        debugln(command_buffer[index]);
+        command_buffer[index] = (charIn - '0'); // get the actual number sent, not just the ASCII code.        
       }
 
     }
@@ -157,6 +167,7 @@ void getSerialCommand()
  */
 void decodeCommand()
 {
+  debugln("Decoding Command");
   enum : int {Display_Test = 0, LED_Bar = 1, LED = 2 };
   if (command_buffer[0] == Display_Test) 
   {
