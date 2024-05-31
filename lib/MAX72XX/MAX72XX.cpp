@@ -115,7 +115,7 @@ void MAX72XX::showInBar(unsigned char device, unsigned char bar,unsigned char va
  * @param led_number The LED number 1-64
  * @param state The state ON(TRUE) or OFF(FALSE)
  */
-void MAX72XX::setLedByNumber(unsigned char device, int led_number, bool state)
+void MAX72XX::setLedByNumber(unsigned char device, unsigned char led_number, bool state)
 {
   // Zero based the number for the MAX72XX device
   unsigned char zero_based_number = led_number - 1;

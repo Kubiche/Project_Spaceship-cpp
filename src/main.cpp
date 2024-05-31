@@ -8,8 +8,8 @@ This code is still under construction.
 
 void setup() 
 { 
-  initIO();
-    
+  debugBegin(19200);
+  initIO();    
 }
 
 void loop() 

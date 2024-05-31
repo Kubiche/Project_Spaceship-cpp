@@ -47,7 +47,7 @@ public:
     void setRegister(unsigned char device, uint16_t opcode, uint16_t val);  
     void setLed(unsigned char device, unsigned char dig, unsigned char seg, bool state);    
     void showInBar(unsigned char device, unsigned char bar, unsigned char value);    
-    void setLedByNumber( unsigned char device, int led_number, bool state);
+    void setLedByNumber( unsigned char device, unsigned char led_number, bool state);
   
 private:
     // Object variable for the Chip Select pin
