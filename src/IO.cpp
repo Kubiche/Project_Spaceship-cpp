@@ -137,7 +137,7 @@ void getSerialCommand()
         debug(",");
         debug(command_buffer[2]);
         debugln();
-        if (index == 2) // crude way of checking the command length
+        if (index == (sizeof(command_buffer) - 1)) // crude way of checking the command length
         {  
           decodeCommand(command_buffer);
         }
