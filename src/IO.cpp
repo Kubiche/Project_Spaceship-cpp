@@ -139,7 +139,7 @@ void getSerialCommand()
         debugln();
         if (index == 2) // crude way of checking the command length
         {  
-          decodeCommand();
+          decodeCommand(command_buffer);
         }
         else
         {
@@ -160,30 +160,28 @@ void getSerialCommand()
 }
 
 /**
- * @brief Decodes the command to issue to the peripherals
+ * @brief 
  * 
- * @param command_type Command Type
- * @param command LED number or Bar number to control
- * @param value ON(True)/OFF(False) or 0-10 for led-bars
+ * @param buffer Buffer passed by reference containing the commands
  */
-void decodeCommand()
+void decodeCommand(unsigned char (&buffer)[3])
 {
   debugln("Decoding Command");
   enum : int {Display_Test = 0, LED_Bar = 1, LED = 2 };
-  if (command_buffer[0] == Display_Test) 
+  if (buffer[0] == Display_Test) 
   {
     for (unsigned char i = 0; i <= LED_DEV_COUNT; i++)
     {
-      led.setRegister(i, OP_DISPLAYTEST, command_buffer[2]);      
+      led.setRegister(i, OP_DISPLAYTEST, buffer[2]);      
     }
   }
-  if (command_buffer[0] == LED_Bar)
+  if (buffer[0] == LED_Bar)
   {
-    led.showInBar(2, command_buffer[1], command_buffer[2]);
+    led.showInBar(2, buffer[1], buffer[2]);
   }
-  if (command_buffer[0] == LED)
+  if (buffer[0] == LED)
   {
-    led.setLedByNumber(1, command_buffer[1], command_buffer[2]);
+    led.setLedByNumber(1, buffer[1], buffer[2]);
   }
 }
 
