@@ -11,7 +11,8 @@ MAX72XX led;
 unsigned char command_buffer[3] ={0}; // Buffer to hold the commands as they come from the serial interface.
 
 // Variable to store the time of the last analog value read.
-unsigned long analog_last_read = 0; 
+unsigned long analog_last_read = 0;
+unsigned long joystick_last_push = 0;
 
 /**
  * @brief The Joystick object with 32 buttons 6 axis and a Throttle
@@ -203,5 +204,8 @@ void getIO()
  */
 void pushIO()
 {
+  if ((millis() - joystick_last_push) > JOYSTICK_UPDATE_INTERVAL)
+  {
   Joystick.sendState();
+  }
 }
