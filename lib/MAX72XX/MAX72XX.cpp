@@ -118,7 +118,7 @@ void MAX72XX::showInBar(unsigned char device, unsigned char bar,unsigned char va
 void MAX72XX::setLedByNumber(unsigned char device, unsigned char led_number, bool state)
 {
   // Zero based the number for the MAX72XX device
-  unsigned char zero_based_number = led_number - 1;
+  unsigned char zero_based_number = (led_number - 1);
   // divided to get the digit on the MAX72XX (0-7) and modulo used to figure out the segment (0-7) 
   setLed(device, (zero_based_number / 8), (zero_based_number % 8), state); 
 } 
