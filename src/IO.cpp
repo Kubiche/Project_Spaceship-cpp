@@ -8,7 +8,7 @@ MCP23017 io2;
 MCP300X adc;
 MAX72XX led;
 
-unsigned char command_buffer[3] ={0}; // Buffer to hold the commands as they come from the serial interface.
+unsigned char command_buffer[3] = {0}; // Buffer to hold the commands as they come from the serial interface.
 
 // Variable to store the time of the last analog value read.
 unsigned long analog_last_read = 0;
