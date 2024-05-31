@@ -8,7 +8,6 @@ MCP23017 io2;
 MCP300X adc;
 MAX72XX led;
 
-int command_buffer[3] = {0}; // Buffer to hold the commands as they come from the serial interface.
 
 // Variable to store the time of the last analog value read.
 unsigned long analog_last_read = 0;
@@ -113,6 +112,7 @@ void getSerialCommand()
 {
   if (Serial.available())
   {
+    int command_buffer[3] = {0}; // Buffer to hold the commands as they come from the serial interface.
     int charIn = 0;    
     unsigned char index = 0;
     for (unsigned char i = 0; i < (sizeof(command_buffer) / (sizeof(command_buffer[0]))); i++) 
