@@ -8,7 +8,7 @@ MCP23017 io2;
 MCP300X adc;
 MAX72XX led;
 
-unsigned char command_buffer[3] = {0}; // Buffer to hold the commands as they come from the serial interface.
+int command_buffer[3] = {0}; // Buffer to hold the commands as they come from the serial interface.
 
 // Variable to store the time of the last analog value read.
 unsigned long analog_last_read = 0;
@@ -113,7 +113,7 @@ void getSerialCommand()
 {
   if (Serial.available())
   {
-    char charIn = 0;    
+    int charIn = 0;    
     unsigned char index = 0;
     for (unsigned char i = 0; i < (sizeof(command_buffer) / (sizeof(command_buffer[0]))); i++) 
     {
@@ -124,7 +124,7 @@ void getSerialCommand()
     {      
       charIn = Serial.read();
       //debugln(charIn);      
-      if (charIn == '\n') // If received the terminator character, decode the command
+      if (charIn == 10) // If received the terminator character, decode the command
       {
         while (Serial.available() > 0 ) // If buffer still holds data
         {
@@ -137,7 +137,7 @@ void getSerialCommand()
         debug(",");
         debug(command_buffer[2]);
         debugln();
-        if (index == (sizeof(command_buffer) - 1)) // crude way of checking the command length
+        if (index == ((sizeof(command_buffer) / sizeof(command_buffer[0])) - 1)) // crude way of checking the command length
         {  
           decodeCommand(command_buffer);
         }
@@ -146,13 +146,13 @@ void getSerialCommand()
           debugln("Null Command");
         }                
       }
-      else if (charIn == ',') // If recieved decimal 44 (",") used as data separator, ignore and increase the index
+      else if (charIn == 44) // If recieved decimal 44 (",") used as data separator, ignore and increase the index
       {
         index++;
       }
       else
       {        
-        command_buffer[index] = (charIn - '0'); // get the actual number sent, not just the ASCII code.        
+        command_buffer[index] = (charIn - 48); // get the actual number sent, not just the ASCII code.        
       }
 
     }
@@ -164,7 +164,7 @@ void getSerialCommand()
  * 
  * @param buffer Buffer passed by reference containing the commands
  */
-void decodeCommand(unsigned char (&buffer)[3])
+void decodeCommand(int (&buffer)[3])
 {
   debugln("Decoding Command");
   enum : int {Display_Test = 0, LED_Bar = 1, LED = 2 };
