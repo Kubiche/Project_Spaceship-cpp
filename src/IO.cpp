@@ -76,6 +76,7 @@ void updateDigitals()
 {
   if (!digitalRead(IO1_INT_PIN)) //check for interrupt pin from io expander chip to see if any changes in states.
   {
+    debugln("IO1 interrupt triggered");
     unsigned int flags = io1.ReadIntFlag(); //read the interrupt flags to see which pins trigerred the interrupt
     unsigned int inputs = io1.ReadGPIOs();  //read the states of the gpio pins    
     for (unsigned int i = 0; i < 16; i++)
@@ -90,6 +91,7 @@ void updateDigitals()
   }
   if (!digitalRead(IO2_INT_PIN)) //check for interrupt pin from io expander chip to see if any changes in states.
   {
+    debugln("IO2 interrupt triggered");
     unsigned int flags = io2.ReadIntFlag(); //read the interrupt flags to see which pin/s trigerred the interrupt
     unsigned int inputs = io2.ReadGPIOs();  //read the states of the gpio pins    
     for (unsigned int i = 0; i < 16; i++)
@@ -112,24 +114,29 @@ void getSerialCommand()
 {
   if (Serial.available())
   {
-    int command_buffer[3] = {0}; // Buffer to hold the commands as they come from the serial interface.
-    int charIn = 0;    
+    debug("Serial available: ");
+    debugln(Serial.available());
+    unsigned char command_buffer[3] = {0}; // Buffer to hold the commands as they come from the serial interface.
+    unsigned char char_in = 0;    
     unsigned char index = 0;
     for (unsigned char i = 0; i < (sizeof(command_buffer) / sizeof(command_buffer[0])); i++) 
     {
       command_buffer[i] = 0; // zero out the buffer
     }
-    delay(5); // Delay to allow all the data to come in    
+    delay(5); // Delay to allow all the data to come in 
+    debug("buffer 0 : ");
+    debugln(command_buffer[0]);
+    debug("buffer 1 : ");
+    debugln(command_buffer[1]);
+    debug("buffer 2 : ");
+    debugln(command_buffer[2]);   
     while (Serial.available() > 0)
     {      
-      charIn = Serial.read();
-      //debugln(charIn);      
-      if (charIn == 10) // If received the terminator character, decode the command
-      {
-        while (Serial.available() > 0 ) // If buffer still holds data
-        {
-          Serial.read(); // Empty the buffer
-        }
+      char_in = Serial.read();
+      //debuglnD(char_in);
+      //debugln(char_in);      
+      if (char_in == '\n') // If received the terminator character, decode the command
+      {        
         debug("CMD: ");
         debug(command_buffer[0]);
         debug(",");
@@ -146,13 +153,18 @@ void getSerialCommand()
           debugln("Null Command");
         }                
       }
-      else if (charIn == 44) // If recieved decimal 44 (",") used as data separator, ignore and increase the index
+      else if (char_in == ',') // If recieved decimal 44 (",") used as data separator, ignore and increase the index
       {
         index++;
       }
       else
       {        
-        command_buffer[index] = (charIn - 48); // get the actual number sent, not just the ASCII code.        
+        unsigned char zeroed_char = char_in - '0'; // get the actual number sent, not just the ASCII code.
+        debug("zeroed char: ");
+        debugln(zeroed_char);
+        command_buffer[index] = zeroed_char; 
+        debug("New buffer value: ");
+        debugln(command_buffer[index]);        
       }
 
     }
@@ -164,10 +176,10 @@ void getSerialCommand()
  * 
  * @param buffer Buffer passed by reference containing the commands
  */
-void decodeCommand(int (&buffer)[3])
+void decodeCommand(unsigned char (&buffer)[3])
 {
   debugln("Decoding Command");
-  enum : int {Display_Test = 0, LED_Bar = 1, LED = 2 };
+  enum : unsigned char {Display_Test = 0, LED_Bar = 1, LED = 2 };
   if (buffer[0] == Display_Test) 
   {
     for (unsigned char i = 0; i <= LED_DEV_COUNT; i++)
