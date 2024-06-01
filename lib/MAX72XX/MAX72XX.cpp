@@ -7,16 +7,16 @@
  * @param cs Chip Select pin of the device or cascaded devices
  * @param devices the number of devices
  */
- void MAX72XX::begin(int cs, unsigned char devices)
+ void MAX72XX::begin(unsigned char cs, unsigned char devices)
 {
-  led_cs_ = cs;
-  number_of_devices_ = devices;  
-  pinMode(led_cs_, OUTPUT); // Set the CS pin as output
-  digitalWrite(led_cs_, HIGH); // Set CS pin to High  
-  for (unsigned char i = 0; i < number_of_devices_; i++)
+  _led_cs = cs;
+  _number_of_devices = devices;  
+  pinMode(_led_cs, OUTPUT); // Set the CS pin as output
+  digitalWrite(_led_cs, HIGH); // Set CS pin to High  
+  for (unsigned char i = 0; i < _number_of_devices; i++)
   {    
     setRegister(i, OP_SHUTDOWN, 1); // Turn LED controller on
-    setRegister(i, OP_SCANLIMIT, 7); // set to scan all digit_s
+    setRegister(i, OP_SCANLIMIT, 7); // set to scan all _digits
     setRegister(i, OP_INTENSITY, 8); // Set intensity 0-16
     setRegister(i, OP_DISPLAYTEST, 1);
     delay(1000);    
@@ -33,16 +33,16 @@
  */
 void MAX72XX::setRegister(unsigned char device, uint16_t opcode, uint16_t val) 
 {
-  uint16_t led_buffer[number_of_devices_] = {0};
+  uint16_t led_buffer[_number_of_devices] = {0};
   led_buffer[device] = opcode;
   led_buffer[device] = (led_buffer[device] << 8);
   led_buffer[device] |= val;   
   SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));    
-  for (unsigned char i = 0; i < number_of_devices_; i++)
+  for (unsigned char i = 0; i < _number_of_devices; i++)
   {
-    digitalWrite(led_cs_, LOW);
+    digitalWrite(_led_cs, LOW);
     SPI.transfer16(led_buffer[i]); //this is the combination of the opcode and the value desired
-    digitalWrite(led_cs_, HIGH);
+    digitalWrite(_led_cs, HIGH);
   }  
   SPI.endTransaction();
 }
@@ -58,9 +58,9 @@ void MAX72XX::setRegister(unsigned char device, uint16_t opcode, uint16_t val)
 void MAX72XX::setLed(unsigned char device, unsigned char dig, unsigned char seg, bool state) 
 {
   unsigned char mask = 0b10000000 >> (seg);
-  if ((digit_[device][dig] & mask) != state){
-    digit_[device][dig] ^= mask; 
-    setRegister(device, (dig + 1), digit_[device][dig]);    
+  if ((_digit[device][dig] & mask) != state){
+    _digit[device][dig] ^= mask; 
+    setRegister(device, (dig + 1), _digit[device][dig]);    
   }
 }
 
@@ -79,32 +79,32 @@ void MAX72XX::showInBar(unsigned char device, unsigned char bar,unsigned char va
     const uint16_t Kfullbar[6] {0b1111111111000000, 0b0011111111110000, 0b0000111111111100, 0b0000001111111111, 0b1111111111000000, 0b0011111111110000};// Array to store the full bar value to manipulate for the actual value  
     unsigned char bar_top_byte;
     unsigned char bar_bottom_byte;
-    unsigned char top_digit_opcode;
-    unsigned char bottom_digit_opcode;
+    unsigned char top__digitopcode;
+    unsigned char bottom__digitopcode;
     unsigned char index = bar - 1;
     if ( bar < 5)
     {
       bar_top_byte = bar;
       bar_bottom_byte = bar - 1;
-      top_digit_opcode = bar + 1;
-      bottom_digit_opcode = bar;
+      top__digitopcode = bar + 1;
+      bottom__digitopcode = bar;
     }
     else
     {
       bar_top_byte = bar + 1;
       bar_bottom_byte = bar;
-      top_digit_opcode = bar + 2;
-      bottom_digit_opcode = bar + 1;
+      top__digitopcode = bar + 2;
+      bottom__digitopcode = bar + 1;
     }    
     unsigned char shifted = (10 - value); // fugure out the amount of bits to shift
     uint16_t barlevel = Kfullbar[index] << shifted;  // shift the bits left to show the desired level. Bar 1 index 0 of array.    
     barlevel &= Kfullbar[index];  // Apply modified mask
-    digit_[device][bar_top_byte] &= ~Kfullbar[index]; // Apply LSBits of actual mask to the top byte of the bar 
-    digit_[device][bar_top_byte] |= barlevel;     // Apply the LSBits of the value to the top byte of bar
-    setRegister(device, top_digit_opcode, digit_[device][bar_top_byte]); // Send the new value of the top byte of the bar to the proper digit
-    digit_[device][bar_bottom_byte] &= ~Kfullbar[index] >> 8;      // Apply MSBits of mask to the bottom byte of the bar
-    digit_[device][bar_bottom_byte] |= barlevel >> 8;          // Apply the MSBits of the value to the bottom byte of the bar
-    setRegister(device, bottom_digit_opcode, digit_[device][bar_bottom_byte]);     //  Send the new value of the bottom byte to the propper digit
+    _digit[device][bar_top_byte] &= ~Kfullbar[index]; // Apply LSBits of actual mask to the top byte of the bar 
+    _digit[device][bar_top_byte] |= barlevel;     // Apply the LSBits of the value to the top byte of bar
+    setRegister(device, top__digitopcode, _digit[device][bar_top_byte]); // Send the new value of the top byte of the bar to the proper digit
+    _digit[device][bar_bottom_byte] &= ~Kfullbar[index] >> 8;      // Apply MSBits of mask to the bottom byte of the bar
+    _digit[device][bar_bottom_byte] |= barlevel >> 8;          // Apply the MSBits of the value to the bottom byte of the bar
+    setRegister(device, bottom__digitopcode, _digit[device][bar_bottom_byte]);     //  Send the new value of the bottom byte to the propper digit
   }
 }     
 

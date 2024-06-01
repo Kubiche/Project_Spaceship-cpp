@@ -55,8 +55,8 @@ public:
     unsigned int ReadGPIOs(); // Reads gpio registers from IC and stores them in the array bellow.
     unsigned int ReadIntFlag();    
 private:
-    int device_address_;
-    int interrupt_pin_;    
+    int _device_address;
+    int _interrupt_pin;    
 };
 
 #endif

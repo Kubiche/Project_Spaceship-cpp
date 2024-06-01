@@ -14,7 +14,7 @@ public:
   unsigned int Read(unsigned char channel);
 private:
   // Object variable containing the ADC IC Chip Select pin
-  unsigned char adc_cs_;
+  unsigned char _adc_cs;
 
 };
 
