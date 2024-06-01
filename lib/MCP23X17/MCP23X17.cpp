@@ -65,19 +65,19 @@ void MCP23017::begin(unsigned char I2C_address, unsigned char interrupt_pin)
  */
 unsigned int MCP23017::ReadGPIOs() 
 { 
-  unsigned int gpio = 0;
-  Wire.beginTransmission(_device_address);
-  Wire.write(MCP23017_GPIOB);
-  Wire.endTransmission();
-  Wire.requestFrom(_device_address, 2);
-  unsigned char i = 0;    
-  while (Wire.available())
-  {
-    gpio = gpio << (8*i);
-    gpio = (gpio | Wire.read());
-    i++;                
-  }
-  return gpio;
+    unsigned int gpio = 0;
+    Wire.beginTransmission(_device_address);
+    Wire.write(MCP23017_GPIOB);
+    Wire.endTransmission();
+    Wire.requestFrom(_device_address, 2);
+    unsigned char i = 0;    
+    while (Wire.available())
+    {
+        gpio = gpio << (8*i);
+        gpio = (gpio | Wire.read());
+        i++;                
+    }
+    return gpio;
 }
 
 /**
@@ -87,17 +87,17 @@ unsigned int MCP23017::ReadGPIOs()
  */
 unsigned int MCP23017::ReadIntFlag() 
 {
-  Wire.beginTransmission(_device_address);
-  Wire.write(MCP23017_INTFB);
-  Wire.endTransmission();
-  Wire.requestFrom(_device_address, 2);
-  unsigned char i = 0;
-  unsigned int intflag = 0;
-  while (Wire.available())
-  {
-    intflag = intflag << (8*i);
-    intflag = (intflag | Wire.read());    
-    i++;
-  }
-  return intflag;
+    Wire.beginTransmission(_device_address);
+    Wire.write(MCP23017_INTFB);
+    Wire.endTransmission();
+    Wire.requestFrom(_device_address, 2);
+    unsigned char i = 0;
+    unsigned int intflag = 0;
+    while (Wire.available())
+    {
+        intflag = intflag << (8*i);
+        intflag = (intflag | Wire.read());    
+        i++;
+    }
+    return intflag;
 }

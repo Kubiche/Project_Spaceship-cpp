@@ -8,9 +8,9 @@
  */
 void MCP300X::begin(unsigned char cs)
 { 
- _adc_cs = cs;  
- pinMode(_adc_cs, OUTPUT);
- digitalWrite(_adc_cs, HIGH);
+    _adc_cs = cs;  
+    pinMode(_adc_cs, OUTPUT);
+    digitalWrite(_adc_cs, HIGH);
 }
 
 /**
@@ -21,18 +21,18 @@ void MCP300X::begin(unsigned char cs)
  */
 unsigned int MCP300X::Read(unsigned char channel)
 {
-  //stores data temporarily to transmit to IC and stores received readings to return
-  unsigned char buffer[3]; 
-  //this is the start bit as per datasheet section 6.1
-  buffer[0] = 0b00000001; 
-  //harcoded 1 for single ended reading and channel number combined
-  buffer[1] = 0b10000000 | (channel << 4); 
-  SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
-  digitalWrite(_adc_cs, LOW);
-  SPI.transfer(buffer, 3); 
-  digitalWrite(_adc_cs, HIGH);
-  SPI.endTransaction();
-  //combine the relevant bits to come up with the actual reading
-  unsigned int read = ((buffer[1] & 0b00000011) << 8) | buffer[2]; 
-  return read;
+    //stores data temporarily to transmit to IC and stores received readings to return
+    unsigned char buffer[3]; 
+    //this is the start bit as per datasheet section 6.1
+    buffer[0] = 0b00000001; 
+    //harcoded 1 for single ended reading and channel number combined
+    buffer[1] = 0b10000000 | (channel << 4); 
+    SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
+    digitalWrite(_adc_cs, LOW);
+    SPI.transfer(buffer, 3); 
+    digitalWrite(_adc_cs, HIGH);
+    SPI.endTransaction();
+    //combine the relevant bits to come up with the actual reading
+    unsigned int read = ((buffer[1] & 0b00000011) << 8) | buffer[2]; 
+    return read;
 }
