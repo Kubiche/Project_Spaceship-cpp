@@ -17,10 +17,7 @@ void MAX72XX::begin(unsigned char cs, unsigned char devices)
     {      
         setRegister(i, OP_SHUTDOWN, 1); // Turn LED controller on
         setRegister(i, OP_SCANLIMIT, 7); // set to scan all _digits
-        setRegister(i, OP_INTENSITY, 8); // Set intensity 0-16
-        setRegister(i, OP_DISPLAYTEST, 1);
-        delay(1000);    
-        setRegister(i, OP_DISPLAYTEST, 0);
+        setRegister(i, OP_INTENSITY, 8); // Set intensity 0-16        
     }  
 }
 
@@ -122,4 +119,11 @@ void MAX72XX::setLedByNumber(unsigned char device, unsigned char led_number, boo
     unsigned char zero_based_number = (led_number - 1);
     // divided to get the digit on the MAX72XX (0-7) and modulo used to figure out the segment (0-7) 
     setLed(device, (zero_based_number / 8), (zero_based_number % 8), state); 
-} 
+}
+
+void displayTest(unsigned char duration = 1000)
+{
+    setRegister(1, OP_DISPLAYTEST, 1);
+    delay(duration);    
+    setRegister(1, OP_DISPLAYTEST, 0);
+}

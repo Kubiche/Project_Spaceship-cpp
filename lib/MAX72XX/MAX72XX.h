@@ -48,6 +48,7 @@ public:
     void setLed(unsigned char device, unsigned char dig, unsigned char seg, bool state);    
     void showInBar(unsigned char device, unsigned char bar, unsigned char value);    
     void setLedByNumber( unsigned char device, unsigned char led_number, bool state);
+    void displayTest(unsigned char duration);
   
 private:
     // Object variable for the Chip Select pin
@@ -55,7 +56,8 @@ private:
     // Object variable for the number of devices attached
     unsigned char _number_of_devices;
     //Object array to store the max72xx digit values per device to not override others on changes
-    unsigned char _digit[MAX_DEVICES][8] = {0}; 
+    unsigned char _digit[MAX_DEVICES][8] = {0};
+     
 };      
  
 #endif

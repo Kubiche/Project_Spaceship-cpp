@@ -2,8 +2,8 @@
 #define SERIAL_H_
 
 void getSerialCommand();
-void parseSerial(unsigned char (&incoming)[6]);
-void decodeCommand(unsigned char (&command)[3]);
+void parseSerial(unsigned char (&incoming)[], unsigned char length);
+void decodeCommand(unsigned char (&command)[], unsigned char length);
 
 
 
