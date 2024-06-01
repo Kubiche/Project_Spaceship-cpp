@@ -121,7 +121,7 @@ void MAX72XX::setLedByNumber(unsigned char device, unsigned char led_number, boo
     setLed(device, (zero_based_number / 8), (zero_based_number % 8), state); 
 }
 
-void displayTest(unsigned char duration = 1000)
+void MAX72XX::displayTest(unsigned char duration = 1000)
 {
     setRegister(1, OP_DISPLAYTEST, 1);
     delay(duration);    
