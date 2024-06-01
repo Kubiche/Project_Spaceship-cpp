@@ -115,7 +115,7 @@ void getSerialCommand()
     int command_buffer[3] = {0}; // Buffer to hold the commands as they come from the serial interface.
     int charIn = 0;    
     unsigned char index = 0;
-    for (unsigned char i = 0; i < (sizeof(command_buffer) / (sizeof(command_buffer[0]))); i++) 
+    for (unsigned char i = 0; i < (sizeof(command_buffer) / sizeof(command_buffer[0])); i++) 
     {
       command_buffer[i] = 0; // zero out the buffer
     }
@@ -205,5 +205,6 @@ void pushIO()
   if ((millis() - joystick_last_push) > JOYSTICK_UPDATE_INTERVAL)
   {
   Joystick.sendState();
+  joystick_last_push = millis();
   }
 }
