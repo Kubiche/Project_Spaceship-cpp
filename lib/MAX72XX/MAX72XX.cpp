@@ -121,9 +121,14 @@ void MAX72XX::setLedByNumber(unsigned char device, unsigned char led_number, boo
     setLed(device, (zero_based_number / 8), (zero_based_number % 8), state); 
 }
 
-void MAX72XX::displayTest(unsigned char duration = 1000)
+/**
+ * @brief Set the MAX72XX's in Display Mode  for a time in seconds
+ * 
+ * @param duration time in seconds the test should last. This is a blocking function.
+ */
+void MAX72XX::displayTest(unsigned char duration)
 {
     setRegister(1, OP_DISPLAYTEST, 1);
-    delay(duration);    
+    delay(duration * 1000);    
     setRegister(1, OP_DISPLAYTEST, 0);
 }
