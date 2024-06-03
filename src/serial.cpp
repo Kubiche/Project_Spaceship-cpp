@@ -125,7 +125,7 @@ void decodeCommand(unsigned char (&command)[3])
         {
             led.setLedByNumber(1,command[1], false);
         }
-        else
+        if (command[2] == 1)
         {
             led.setLedByNumber(1,command[1], true);            
         }
