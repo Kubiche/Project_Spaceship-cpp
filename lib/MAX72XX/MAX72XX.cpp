@@ -55,7 +55,8 @@ void MAX72XX::setRegister(unsigned char device, uint16_t opcode, uint16_t val)
 void MAX72XX::setLed(unsigned char device, unsigned char dig, unsigned char seg, bool state) 
 {
     unsigned char mask = 0b10000000 >> (seg);
-    if ((_digit[device][dig] & mask) != state)
+    bool led_state = (_digit[device][dig] & mask);
+    if ( led_state != state)
     {
         _digit[device][dig] ^= mask; 
         setRegister(device, (dig + 1), _digit[device][dig]);    
