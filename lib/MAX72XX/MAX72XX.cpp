@@ -5,7 +5,7 @@
  * @brief sets up the Chip Select pin to HIGH and sends a "Display Test" for 1 second
  * 
  * @param cs Chip Select pin of the device or cascaded devices
- * @param devices the number of devices
+ * @param devices the number of devices 1-N
  */
 void MAX72XX::begin(unsigned char cs, unsigned char devices)
 {
@@ -30,7 +30,7 @@ void MAX72XX::begin(unsigned char cs, unsigned char devices)
  */
 void MAX72XX::setRegister(unsigned char device, uint16_t opcode, uint16_t val) 
 {
-    uint16_t led_buffer[_number_of_devices] = {0};
+    uint16_t led_buffer[_number_of_devices] = {OP_NOOP};
     led_buffer[device] = opcode;
     led_buffer[device] = (led_buffer[device] << 8);
     led_buffer[device] |= val;   

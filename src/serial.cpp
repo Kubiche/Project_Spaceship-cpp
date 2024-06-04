@@ -24,6 +24,10 @@ void getSerialCommand()
         {
             debug("CMD: ");
             command_buffer[0] = parseSerial(incoming_buffer, command_length); // Store the parsed message into the command buffer to be decoded.
+            if (command_buffer[0] == 255)
+            {
+                failed = true;
+            }
             debug(command_buffer[0]);
             debug(" ,");
         }
@@ -35,6 +39,10 @@ void getSerialCommand()
         if (command_length > 0)
         {
             command_buffer[1] = parseSerial(incoming_buffer, command_length); // Store the parsed message into the command buffer to be decoded.
+            if (command_buffer[1] == 255)
+            {
+                failed = true;
+            }
             debug(command_buffer[1]);
             debug(" ,");
         }
@@ -46,6 +54,10 @@ void getSerialCommand()
         if (command_length > 0)
         {
             command_buffer[2] = parseSerial(incoming_buffer, command_length); // Store the parsed message into the command buffer to be decoded.
+            if (command_buffer[2] == 255)
+            {
+                failed = true;
+            }
             debug(command_buffer[2]);
             debugln();
         }
@@ -88,7 +100,9 @@ unsigned char parseSerial(unsigned char (&incoming)[3], unsigned char length)
     {
         command = (convertChar(incoming[0]) * 100) + (convertChar(incoming[1]) * 10) + convertChar(incoming[2]);
         return command;
-    }   
+    }
+    command = 255;
+    return command;   
 }
 
 /**
@@ -141,7 +155,7 @@ void decodeCommand(unsigned char (&command)[3])
  */
 unsigned char convertChar(unsigned char character)
 {
-    unsigned char adjusted = NULL;
+    unsigned char adjusted;
     adjusted = character - '0';
     return adjusted;
 }
