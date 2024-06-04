@@ -129,7 +129,13 @@ void MAX72XX::setLedByNumber(unsigned char device, unsigned char led_number, boo
  */
 void MAX72XX::displayTest(unsigned char duration)
 {
-    setRegister(1, OP_DISPLAYTEST, 1);
-    delay(duration * 1000);    
-    setRegister(1, OP_DISPLAYTEST, 0);
+    for (unsigned char i = 0; i < _number_of_devices; i++)
+    {
+        setRegister(i, OP_DISPLAYTEST, 1);
+    }    
+    delay(duration * 1000);
+    for (unsigned char i = 0; i < _number_of_devices; i++)
+    {
+        setRegister(i, OP_DISPLAYTEST, 0);
+    }    
 }

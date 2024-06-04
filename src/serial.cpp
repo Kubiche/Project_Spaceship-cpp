@@ -6,6 +6,9 @@
 
 extern MAX72XX led;
 
+#define LED_BAR_DEVICE 2
+#define LED_DEVICE 1
+
 /**
  * @brief Get the Serial Commands and process them for use
  * 
@@ -131,17 +134,17 @@ void decodeCommand(unsigned char (&command)[3])
     }
     if (command[0] == LED_BAR)
     {
-
+        led.showInBar(LED_BAR_DEVICE, command[1], command[2]);
     }
     if (command[0] == LED)
     {
         if (command[2] == 0)
         {
-            led.setLedByNumber(1,command[1], false);
+            led.setLedByNumber(LED_DEVICE,command[1], false);
         }
         if (command[2] == 1)
         {
-            led.setLedByNumber(1,command[1], true);            
+            led.setLedByNumber(LED_DEVICE,command[1], true);            
         }
         
     }
