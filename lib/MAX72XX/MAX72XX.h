@@ -56,8 +56,7 @@ private:
     // Object variable for the number of devices attached
     unsigned char _number_of_devices;
     //Object array to store the max72xx digit values per device to not override others on changes
-    unsigned char _digit[MAX_DEVICES][8] = {0};
-     
+    unsigned char _digit[MAX_DEVICES][8] = {0};         
 };      
  
 #endif

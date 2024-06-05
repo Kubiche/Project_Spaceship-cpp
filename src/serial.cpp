@@ -6,8 +6,8 @@
 
 extern MAX72XX led;
 
-#define LED_BAR_DEVICE 2
-#define LED_DEVICE 1
+#define LED_BAR_DEVICE 1
+#define LED_DEVICE 0
 
 /**
  * @brief Get the Serial Commands and process them for use
