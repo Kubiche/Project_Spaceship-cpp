@@ -49,6 +49,7 @@ public:
     void showInBar(unsigned char device, unsigned char bar, unsigned char value);    
     void setLedByNumber( unsigned char device, unsigned char led_number, bool state);
     void displayTest(unsigned char duration = 1);
+    void setIntensity(unsigned char device, unsigned char intensity);
   
 private:
     // Object variable for the Chip Select pin
