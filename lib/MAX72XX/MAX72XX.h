@@ -50,6 +50,7 @@ public:
     void setLedByNumber( unsigned char device, unsigned char led_number, bool state);
     void displayTest(unsigned char duration = 1);
     void setIntensity(unsigned char device, unsigned char intensity);
+    void reset(uint8_t device);
   
 private:
     // Object variable for the Chip Select pin
