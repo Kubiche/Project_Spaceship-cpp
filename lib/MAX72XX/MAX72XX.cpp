@@ -1,6 +1,6 @@
 #include "MAX72XX.h"
 #include <spi.h>
-#include "debug.h"
+#include "..\..\src\debug.h"
 
 /**
  * @brief sets up the Chip Select pin to HIGH and sends a "Display Test" for 1 second
@@ -15,11 +15,13 @@ void MAX72XX::begin(unsigned char cs, unsigned char devices)
     pinMode(_led_cs, OUTPUT); // Set the CS pin as output
     digitalWrite(_led_cs, HIGH); // Set CS pin to High  
     for (unsigned char i = 0; i < _number_of_devices; i++)
-    {      
+    {         
+        reset(i);
         setRegister(i, OP_SHUTDOWN, 1); // Turn LED controller on
-        setRegister(i, OP_SCANLIMIT, 7); // set to scan all _digits
-        setRegister(i, OP_INTENSITY, 8); // Set intensity 0-16        
-    }  
+        setRegister(i, OP_SCANLIMIT, 7); // set to scan all _digits               
+    }
+    setIntensity(0,1);
+    setIntensity(1,15);  
 }
 
 /**
@@ -37,8 +39,8 @@ void MAX72XX::setRegister(unsigned char device, uint16_t opcode, uint16_t val)
     led_buffer[device] |= val;   
     SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));    
     digitalWrite(_led_cs, LOW);
-    for (char i = _number_of_devices ; i >= 0 ; i--)
-    {       
+    for (signed char i = _number_of_devices ; i >= 0 ; i--)
+    {         
         SPI.transfer16(led_buffer[i]); //this is the combination of the opcode and the value desired
         debuglnB(led_buffer[i]);        
     }
@@ -140,4 +142,28 @@ void MAX72XX::displayTest(unsigned char duration)
     {
         setRegister(i, OP_DISPLAYTEST, 0);
     }    
+}
+
+/**
+ * @brief Sets the LED Controller device pervieved brigthness
+ * 
+ * @param device 0-N 
+ * @param intensity 0-15
+ */
+void MAX72XX::setIntensity(unsigned char device, unsigned char intensity)
+{
+    setRegister(device, OP_INTENSITY, intensity);
+}
+
+/**
+ * @brief This sets all the digit registers to zero. Effectivly blanking the device.
+ * 
+ * @param device LED Controller Device to be reset.
+ */
+void MAX72XX::reset(uint8_t device)
+{
+    for (uint8_t i = 1; i <= 8; i++)
+    {
+        setRegister(device, i, 0);        
+    }
 }
