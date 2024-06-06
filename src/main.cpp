@@ -5,8 +5,7 @@ This code is still under construction.
 #include "IO.h"
 
 void setup() 
-{ 
-  
+{  
     initIO();    
 }
 
