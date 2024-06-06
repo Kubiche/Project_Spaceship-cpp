@@ -1,5 +1,6 @@
 #include "MAX72XX.h"
 #include <spi.h>
+#include "debug.h"
 
 /**
  * @brief sets up the Chip Select pin to HIGH and sends a "Display Test" for 1 second
@@ -36,9 +37,10 @@ void MAX72XX::setRegister(unsigned char device, uint16_t opcode, uint16_t val)
     led_buffer[device] |= val;   
     SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));    
     digitalWrite(_led_cs, LOW);
-    for (unsigned char i = 0; i < _number_of_devices; i++)
+    for (char i = _number_of_devices ; i >= 0 ; i--)
     {       
-        SPI.transfer16(led_buffer[i]); //this is the combination of the opcode and the value desired        
+        SPI.transfer16(led_buffer[i]); //this is the combination of the opcode and the value desired
+        debuglnB(led_buffer[i]);        
     }
     digitalWrite(_led_cs, HIGH);  
     SPI.endTransaction();
@@ -110,7 +112,7 @@ void MAX72XX::showInBar(unsigned char device, unsigned char bar,unsigned char va
 /**
  * @brief Sets the desired LED to ON or OFF based on a number 1-64
  * 
- * @param device The device number 1-N
+ * @param device The device number 0-N
  * @param led_number The LED number 1-64
  * @param state The state ON(TRUE) or OFF(FALSE)
  */
