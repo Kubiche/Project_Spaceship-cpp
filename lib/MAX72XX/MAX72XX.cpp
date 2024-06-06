@@ -1,5 +1,6 @@
 #include "MAX72XX.h"
 #include <spi.h>
+#include "debug.h"
 
 /**
  * @brief sets up the Chip Select pin to HIGH and sends a "Display Test" for 1 second
@@ -35,12 +36,13 @@ void MAX72XX::setRegister(unsigned char device, uint16_t opcode, uint16_t val)
     led_buffer[device] = (led_buffer[device] << 8);
     led_buffer[device] |= val;   
     SPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE0));    
-    for (unsigned char i = 0; i < _number_of_devices; i++)
-    {
-        digitalWrite(_led_cs, LOW);
+    digitalWrite(_led_cs, LOW);
+    for (char i = _number_of_devices ; i >= 0 ; i--)
+    {       
         SPI.transfer16(led_buffer[i]); //this is the combination of the opcode and the value desired
-        digitalWrite(_led_cs, HIGH);
-    }  
+        debuglnB(led_buffer[i]);        
+    }
+    digitalWrite(_led_cs, HIGH);  
     SPI.endTransaction();
 }
 

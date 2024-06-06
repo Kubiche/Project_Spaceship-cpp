@@ -6,7 +6,7 @@
 
 extern MAX72XX led;
 
-#define LED_BAR_DEVICE 2
+#define LED_BAR_DEVICE 0
 #define LED_DEVICE 1
 
 /**
