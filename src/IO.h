@@ -13,7 +13,7 @@
 // Analog read interval to prevent USB saturation.
 #define ANALOG_CHECK_INTERVAL 5
 //Joystick update interval
-#define JOYSTICK_UPDATE_INTERVAL 10 
+#define JOYSTICK_UPDATE_INTERVAL 5 
 // I2C address of the first IO IC
 #define IO1_I2C_ADDRESS 0x21 
 // I2C address of the second IO IC
