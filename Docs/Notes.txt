@@ -1,4 +1,0 @@
-Linear pot 10k pinout:
-	pin 1 - Vcc
-	pin 2 - Signal
-	pin 3 - GND
