@@ -6,7 +6,7 @@
  * 
  * @param cs Chip Select pin for the MCP300X IC device
  */
-void MCP300X::begin(unsigned char cs)
+void MCP300X::begin(uint8_t cs)
 { 
     _adc_cs = cs;  
     pinMode(_adc_cs, OUTPUT);
@@ -19,10 +19,10 @@ void MCP300X::begin(unsigned char cs)
  * @param channel The channel to read on the device 0-7
  * @return unsigned int containing the read
  */
-unsigned int MCP300X::Read(unsigned char channel)
+unsigned int MCP300X::Read(uint8_t channel)
 {
     //stores data temporarily to transmit to IC and stores received readings to return
-    unsigned char buffer[3]; 
+    uint8_t buffer[3]; 
     //this is the start bit as per datasheet section 6.1
     buffer[0] = 0b00000001; 
     //harcoded 1 for single ended reading and channel number combined

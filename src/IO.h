@@ -38,6 +38,6 @@ void initIO();
 void getIO();
 void pushIO();
 void getSerialCommand();
-void decodeCommand(unsigned char (&buffer)[3]);
+void decodeCommand(uint8_t (&buffer)[3]);
 
 #endif

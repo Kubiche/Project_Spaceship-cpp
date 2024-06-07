@@ -7,7 +7,7 @@
  * @param I2C_address I2C address of the MCP23017 IC
  * @param interrupt_pin Interrup pin from the MCP23017 IC
  */
-void MCP23017::begin(unsigned char I2C_address, unsigned char interrupt_pin)
+void MCP23017::begin(uint8_t I2C_address, uint8_t interrupt_pin)
 {
     _device_address = I2C_address;
     _interrupt_pin = interrupt_pin;
@@ -70,7 +70,7 @@ unsigned int MCP23017::ReadGPIOs()
     Wire.write(MCP23017_GPIOB);
     Wire.endTransmission();
     Wire.requestFrom(_device_address, 2);
-    unsigned char i = 0;    
+    uint8_t i = 0;    
     while (Wire.available())
     {
         gpio = gpio << (8*i);
@@ -91,7 +91,7 @@ unsigned int MCP23017::ReadIntFlag()
     Wire.write(MCP23017_INTFB);
     Wire.endTransmission();
     Wire.requestFrom(_device_address, 2);
-    unsigned char i = 0;
+    uint8_t i = 0;
     unsigned int intflag = 0;
     while (Wire.available())
     {

@@ -19,9 +19,9 @@ void getSerialCommand()
     {
         delay(5); // allow the whole command to come in
         bool failed = false;
-        unsigned char command_buffer[3] = {0}; // Holds the commands to be decoded into actions
-        unsigned char incoming_buffer[3] = {0}; // Holds the incoming data per section
-        unsigned char command_length = 0; // holds the amount of bytes (digits) received in the sections
+        uint8_t command_buffer[3] = {0}; // Holds the commands to be decoded into actions
+        uint8_t incoming_buffer[3] = {0}; // Holds the incoming data per section
+        uint8_t command_length = 0; // holds the amount of bytes (digits) received in the sections
         command_length = Serial.readBytesUntil(',', incoming_buffer, 3); // get the data and store the count of bytes
         if (command_length > 0)
         {
@@ -84,11 +84,11 @@ void getSerialCommand()
  * 
  * @param incoming Data from the serial port no including the separator or terminator char
  * @param length Didits the buffer contains
- * @return unsigned char Parsed Command
+ * @return uint8_t Parsed Command
  */
-unsigned char parseSerial(unsigned char (&incoming)[3], unsigned char length)
+uint8_t parseSerial(uint8_t (&incoming)[3], uint8_t length)
 {
-    unsigned char command = 0;
+    uint8_t command = 0;
     if (length == 1)
     {
         command = convertChar(incoming[0]);
@@ -113,9 +113,9 @@ unsigned char parseSerial(unsigned char (&incoming)[3], unsigned char length)
  * 
  * @param command Parsed command ready to be used
  */
-void decodeCommand(unsigned char (&command)[3])
+void decodeCommand(uint8_t (&command)[3])
 {
-    enum : unsigned char
+    enum : uint8_t
     {
         DISPLAY_TEST = 0,
         LED_BAR = 1,
@@ -154,11 +154,11 @@ void decodeCommand(unsigned char (&command)[3])
  * @brief Converts an ascii char into an actual number offseted by the ascii 0 (48).
  * 
  * @param character The char to be converted
- * @return unsigned char The converted char
+ * @return uint8_t The converted char
  */
-unsigned char convertChar(unsigned char character)
+uint8_t convertChar(uint8_t character)
 {
-    unsigned char adjusted;
+    uint8_t adjusted;
     adjusted = character - '0';
     return adjusted;
 }
