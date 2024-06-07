@@ -1,5 +1,5 @@
 #include "IO.h"
-#include "debug.h"
+#include <debug.h>
 #include "serial.h"
 
 
@@ -51,7 +51,7 @@ void updateAnalogs()
     if ((millis() - analog_last_read) > ANALOG_CHECK_INTERVAL)
     {
         unsigned int channel[8];
-        for (unsigned char i = 0; i < 7; i++)
+        for (uint8_t i = 0; i < 7; i++)
         {
             channel[i] = adc.Read(i); //Read all channels of the ADC IC and store it in the array
             //debug("channel");
