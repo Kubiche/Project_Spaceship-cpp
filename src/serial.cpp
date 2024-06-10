@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "serial.h"
 #include "debug.h"
 #include "MAX72XX.h"

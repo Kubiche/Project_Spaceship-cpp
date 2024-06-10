@@ -1,7 +1,13 @@
 #include "IO.h"
 #include <debug.h>
 #include "serial.h"
-
+#include <Arduino.h>
+#include <Joystick.h>
+#include <MCP23X17.h>
+#include <MCP300X.h>
+#include <MAX72XX.h>
+#include <SPI.h>
+#include <Wire.h>
 
 
 MCP23017 io1;
@@ -51,9 +57,9 @@ void updateAnalogs()
     if ((millis() - analog_last_read) > ANALOG_CHECK_INTERVAL)
     {
         unsigned int channel[8];
-        for (uint8_t i = 0; i < 7; i++)
+        for (uint8_t i = 0; i < 8; i++)
         {
-            channel[i] = adc.Read(i); //Read all channels of the ADC IC and store it in the array
+            channel[i] = adc.read(i); //Read all channels of the ADC IC and store it in the array
             //debug("channel");
             //debug(i);
             //debug(": ");

@@ -19,7 +19,7 @@ void MCP300X::begin(uint8_t cs)
  * @param channel The channel to read on the device 0-7
  * @return unsigned int containing the read
  */
-unsigned int MCP300X::Read(uint8_t channel)
+unsigned int MCP300X::read(uint8_t channel)
 {
     //stores data temporarily to transmit to IC and stores received readings to return
     uint8_t buffer[3]; 

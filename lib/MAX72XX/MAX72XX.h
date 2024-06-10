@@ -1,7 +1,8 @@
 #ifndef MAXX72XX_H_
 #define MAXX72XX_H_
 
-#include <spi.h>
+#include <Arduino.h>
+
 
 // defined limit of cascaded devices in use.
 #define MAX_DEVICES 2

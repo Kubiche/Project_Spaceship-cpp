@@ -2,12 +2,6 @@
 #define IO_H_
 
 #include <Arduino.h>
-#include <Joystick.h>
-#include <MCP23X17.h>
-#include <MCP300X.h>
-#include <MAX72XX.h>
-#include <SPI.h>
-#include <Wire.h>
 
 
 // Analog read interval to prevent USB saturation.
