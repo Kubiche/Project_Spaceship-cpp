@@ -17,8 +17,8 @@ MAX72XX led;
 
 
 // Variable to store the time of the last analog value read.
-unsigned long analog_last_read = 0;
-unsigned long joystick_last_push = 0;
+static unsigned long s_analog_last_read = 0;
+static unsigned long s_joystick_last_push = 0;
 
 /**
  * @brief The Joystick object with 32 buttons 6 axis and a Throttle
@@ -54,7 +54,7 @@ void initIO()
  */
 void updateAnalogs()   
 {  
-    if ((millis() - analog_last_read) > ANALOG_CHECK_INTERVAL)
+    if ((millis() - s_analog_last_read) > ANALOG_CHECK_INTERVAL)
     {
         unsigned int channel[8];
         for (uint8_t i = 0; i < 8; i++)
@@ -65,7 +65,7 @@ void updateAnalogs()
             //debug(": ");
             //debugln(channel[i]);
         }
-        analog_last_read = millis();    
+        s_analog_last_read = millis();    
         Joystick.setXAxis(channel[0]);
         Joystick.setYAxis(channel[1]);
         Joystick.setZAxis(channel[2]);
@@ -137,9 +137,9 @@ void getIO()
  */
 void pushIO()
 {
-    if ((millis() - joystick_last_push) > JOYSTICK_UPDATE_INTERVAL)
+    if ((millis() - s_joystick_last_push) > JOYSTICK_UPDATE_INTERVAL)
     {
         Joystick.sendState();
-        joystick_last_push = millis();
+        s_joystick_last_push = millis();
     }
 }

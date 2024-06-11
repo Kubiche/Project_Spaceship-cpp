@@ -9,50 +9,50 @@
  */
 void MCP23017::begin(uint8_t I2C_address, uint8_t interrupt_pin)
 {
-    _device_address = I2C_address;
-    _interrupt_pin = interrupt_pin;
+    m_device_address = I2C_address;
+    m_interrupt_pin = interrupt_pin;
     pinMode(interrupt_pin, INPUT_PULLUP);    
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_IOCON);
     Wire.write(0b01111100);
     Wire.endTransmission();
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_IODIRA);
     Wire.write(0xFF);
     Wire.endTransmission();
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_IODIRB);
     Wire.write(0xFF);
     Wire.endTransmission();
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_GPINTENA);
     Wire.write(0xFF);
     Wire.endTransmission();
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_GPINTENB);
     Wire.write(0xFF);
     Wire.endTransmission();
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_INTCONA);
     Wire.write(0x00);
     Wire.endTransmission();
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_INTCONB);
     Wire.write(0x00);
     Wire.endTransmission();
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_GPPUA);
     Wire.write(0xFF);
     Wire.endTransmission();
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_GPPUB);
     Wire.write(0xFF);
     Wire.endTransmission();
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_IPOLA);
     Wire.write(0xFF);
     Wire.endTransmission();
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_IPOLB);
     Wire.write(0xFF);
     Wire.endTransmission();
@@ -66,10 +66,10 @@ void MCP23017::begin(uint8_t I2C_address, uint8_t interrupt_pin)
 uint16_t MCP23017::ReadGPIOs() 
 { 
     uint16_t gpio = 0;
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_GPIOB);
     Wire.endTransmission();
-    Wire.requestFrom(_device_address, 2);
+    Wire.requestFrom(m_device_address, 2);
     uint8_t i = 0;    
     while (Wire.available())
     {
@@ -87,10 +87,10 @@ uint16_t MCP23017::ReadGPIOs()
  */
 uint16_t MCP23017::ReadIntFlag() 
 {
-    Wire.beginTransmission(_device_address);
+    Wire.beginTransmission(m_device_address);
     Wire.write(MCP23017_INTFB);
     Wire.endTransmission();
-    Wire.requestFrom(_device_address, 2);
+    Wire.requestFrom(m_device_address, 2);
     uint8_t i = 0;
     uint16_t intflag = 0;
     while (Wire.available())

@@ -55,8 +55,8 @@ public:
     uint16_t ReadGPIOs(); // Reads gpio registers from IC and stores them in the array bellow.
     uint16_t ReadIntFlag();    
 private:
-    int _device_address;
-    int _interrupt_pin;
+    int m_device_address;
+    int m_interrupt_pin;
         
 };
 

@@ -8,9 +8,9 @@
  */
 void MCP300X::begin(uint8_t cs)
 { 
-    _adc_cs = cs;  
-    pinMode(_adc_cs, OUTPUT);
-    digitalWrite(_adc_cs, HIGH);
+    m_adc_cs = cs;  
+    pinMode(m_adc_cs, OUTPUT);
+    digitalWrite(m_adc_cs, HIGH);
 }
 
 /**
@@ -28,9 +28,9 @@ unsigned int MCP300X::read(uint8_t channel)
     //harcoded 1 for single ended reading and channel number combined
     buffer[1] = 0b10000000 | (channel << 4); 
     SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
-    digitalWrite(_adc_cs, LOW);
+    digitalWrite(m_adc_cs, LOW);
     SPI.transfer(buffer, 3); 
-    digitalWrite(_adc_cs, HIGH);
+    digitalWrite(m_adc_cs, HIGH);
     SPI.endTransaction();
     //combine the relevant bits to come up with the actual reading
     unsigned int read = ((buffer[1] & 0b00000011) << 8) | buffer[2]; 
