@@ -8,12 +8,15 @@
 #include <MAX72XX.h>
 #include <SPI.h>
 #include <Wire.h>
+#include "timer.h"
 
 
 MCP23017 io1;
 MCP23017 io2;
 MCP300X adc;
 MAX72XX led;
+TIMER analog_timer;
+TIMER joystick_timer;
 
 
 // Variable to store the time of the last analog value read.
@@ -39,7 +42,9 @@ void initIO()
 {
     Wire.begin();
     SPI.begin();
-    Serial.begin(115200);  
+    Serial.begin(115200);
+    analog_timer.start(ANALOG_CHECK_INTERVAL);
+    joystick_timer.start(JOYSTICK_UPDATE_INTERVAL);  
     io1.begin(IO1_I2C_ADDRESS, IO1_INT_PIN);
     io2.begin(IO2_I2C_ADDRESS, IO2_INT_PIN);
     adc.begin(ADC_CS_PIN);
@@ -54,7 +59,7 @@ void initIO()
  */
 void updateAnalogs()   
 {  
-    if ((millis() - s_analog_last_read) > ANALOG_CHECK_INTERVAL)
+    if (analog_timer.check())
     {
         unsigned int channel[8];
         for (uint8_t i = 0; i < 8; i++)
@@ -137,7 +142,7 @@ void getIO()
  */
 void pushIO()
 {
-    if ((millis() - s_joystick_last_push) > JOYSTICK_UPDATE_INTERVAL)
+    if (joystick_timer.check())
     {
         Joystick.sendState();
         s_joystick_last_push = millis();
