@@ -16,11 +16,11 @@ bool TIMER::check()
 {
     if ((millis() - m_last_triggered) > m_interval)
     {
+        resetTimer();
         return true;
     }
     else
-    {
-        resetTimer();
+    {        
         return false;
     }
 }
