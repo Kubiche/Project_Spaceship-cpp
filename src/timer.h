@@ -10,9 +10,10 @@ private:
     uint8_t m_interval;
     void resetTimer();    
 
-public:    
+public:
+    TIMER(int interval);    
     bool check();
-    void start(int interval);
+    void start();
 };
 
 
