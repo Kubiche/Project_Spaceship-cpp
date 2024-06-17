@@ -87,8 +87,27 @@ void getSerialCommand()
  */
 uint8_t parseSerial(uint8_t (&incoming)[3], uint8_t length)
 {
-    uint8_t command = (convertChar(incoming[0]) * 100) + (convertChar(incoming[1]) * 10) + convertChar(incoming[2]);
-    return command;   
+    uint8_t command = 0;
+    if (length == 1)
+    {
+        command = convertChar(incoming[0]);
+        return command;
+    }
+    if (length == 2)
+    {
+        command = ((convertChar(incoming[0]) * 10) + convertChar(incoming[1]));
+        return command;
+    }
+    if (length == 3)
+    {
+        command = (convertChar(incoming[0]) * 100) + (convertChar(incoming[1]) * 10) + convertChar(incoming[2]);
+        return command;
+    }
+    else
+    {
+        command = 255;
+        return command;
+    }       
 }
 
 /**

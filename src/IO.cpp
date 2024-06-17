@@ -15,8 +15,8 @@ MCP23017 io1;
 MCP23017 io2;
 MCP300X adc;
 MAX72XX led;
-TIMER analog_timer;
-TIMER joystick_timer;
+TIMER analog_timer(ANALOG_CHECK_INTERVAL);
+TIMER joystick_timer(JOYSTICK_UPDATE_INTERVAL);
 
 
 // Variable to store the time of the last analog value read.
@@ -43,8 +43,8 @@ void initIO()
     Wire.begin();
     SPI.begin();
     Serial.begin(115200);
-    analog_timer.start(ANALOG_CHECK_INTERVAL);
-    joystick_timer.start(JOYSTICK_UPDATE_INTERVAL);  
+    analog_timer.start();
+    joystick_timer.start();  
     io1.begin(IO1_I2C_ADDRESS, IO1_INT_PIN);
     io2.begin(IO2_I2C_ADDRESS, IO2_INT_PIN);
     adc.begin(ADC_CS_PIN);
