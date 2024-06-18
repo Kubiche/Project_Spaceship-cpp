@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "serial.h"
 #include "debug.h"
 #include "MAX72XX.h"
@@ -104,8 +103,11 @@ uint8_t parseSerial(uint8_t (&incoming)[3], uint8_t length)
         command = (convertChar(incoming[0]) * 100) + (convertChar(incoming[1]) * 10) + convertChar(incoming[2]);
         return command;
     }
-    command = 255;
-    return command;   
+    else
+    {
+        command = 255;
+        return command;
+    }       
 }
 
 /**

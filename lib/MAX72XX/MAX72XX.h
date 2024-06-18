@@ -1,7 +1,8 @@
 #ifndef MAXX72XX_H_
 #define MAXX72XX_H_
 
-#include <spi.h>
+#include <Arduino.h>
+
 
 // defined limit of cascaded devices in use.
 #define MAX_DEVICES 2
@@ -54,11 +55,11 @@ public:
   
 private:
     // Object variable for the Chip Select pin
-    uint8_t _led_cs;
+    uint8_t m_led_cs;
     // Object variable for the number of devices attached
-    uint8_t _number_of_devices;
+    uint8_t m_number_of_devices;
     //Object array to store the max72xx digit values per device to not override others on changes
-    uint8_t _digit[MAX_DEVICES][8] = {0};         
+    uint8_t m_digit[MAX_DEVICES][8] = {0};         
 };      
  
 #endif

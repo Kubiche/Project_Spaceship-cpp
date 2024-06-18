@@ -1,18 +1,27 @@
 #include "IO.h"
 #include <debug.h>
 #include "serial.h"
-
+#include <Arduino.h>
+#include <Joystick.h>
+#include <MCP23X17.h>
+#include <MCP300X.h>
+#include <MAX72XX.h>
+#include <SPI.h>
+#include <Wire.h>
+#include "timer.h"
 
 
 MCP23017 io1;
 MCP23017 io2;
 MCP300X adc;
 MAX72XX led;
+TIMER analog_timer(ANALOG_CHECK_INTERVAL);
+TIMER joystick_timer(JOYSTICK_UPDATE_INTERVAL);
 
 
 // Variable to store the time of the last analog value read.
-unsigned long analog_last_read = 0;
-unsigned long joystick_last_push = 0;
+static unsigned long s_analog_last_read = 0;
+static unsigned long s_joystick_last_push = 0;
 
 /**
  * @brief The Joystick object with 32 buttons 6 axis and a Throttle
@@ -33,7 +42,9 @@ void initIO()
 {
     Wire.begin();
     SPI.begin();
-    Serial.begin(115200);  
+    Serial.begin(115200);
+    analog_timer.start();
+    joystick_timer.start();  
     io1.begin(IO1_I2C_ADDRESS, IO1_INT_PIN);
     io2.begin(IO2_I2C_ADDRESS, IO2_INT_PIN);
     adc.begin(ADC_CS_PIN);
@@ -48,18 +59,18 @@ void initIO()
  */
 void updateAnalogs()   
 {  
-    if ((millis() - analog_last_read) > ANALOG_CHECK_INTERVAL)
+    if (analog_timer.check())
     {
         unsigned int channel[8];
-        for (uint8_t i = 0; i < 7; i++)
+        for (uint8_t i = 0; i < 8; i++)
         {
-            channel[i] = adc.Read(i); //Read all channels of the ADC IC and store it in the array
+            channel[i] = adc.read(i); //Read all channels of the ADC IC and store it in the array
             //debug("channel");
             //debug(i);
             //debug(": ");
             //debugln(channel[i]);
         }
-        analog_last_read = millis();    
+        s_analog_last_read = millis();    
         Joystick.setXAxis(channel[0]);
         Joystick.setYAxis(channel[1]);
         Joystick.setZAxis(channel[2]);
@@ -131,9 +142,9 @@ void getIO()
  */
 void pushIO()
 {
-    if ((millis() - joystick_last_push) > JOYSTICK_UPDATE_INTERVAL)
+    if (joystick_timer.check())
     {
         Joystick.sendState();
-        joystick_last_push = millis();
+        s_joystick_last_push = millis();
     }
 }
