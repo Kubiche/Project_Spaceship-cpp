@@ -3,6 +3,10 @@
 
 #include <Arduino.h>
 
+/**
+ * @brief Simple timer class for non-blocking timed tasks.
+ * 
+ */
 class TIMER
 {
 private:
