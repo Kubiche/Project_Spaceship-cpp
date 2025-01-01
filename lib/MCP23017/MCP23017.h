@@ -1,5 +1,5 @@
-#ifndef MCP23X17_H_
-#define MCP23X17_H_
+#ifndef MCP23017_H_
+#define MCP23017_H_
 
 #include <Arduino.h>
 

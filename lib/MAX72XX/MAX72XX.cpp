@@ -1,6 +1,6 @@
 #include "MAX72XX.h"
 #include <SPI.h>
-/*#include "..\..\src\debug.h"
+//#include "..\..\src\debug.h"
 
 /**
  * @brief sets up the Chip Select pin to HIGH and sends a "Display Test" for 1 second

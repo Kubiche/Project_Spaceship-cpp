@@ -3,7 +3,7 @@
 #include "serial.h"
 #include <Arduino.h>
 #include <Joystick.h>
-#include <MCP23X17.h>
+#include <MCP23017.h>
 #include <MCP300X.h>
 #include <MAX72XX.h>
 #include <SPI.h>

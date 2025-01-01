@@ -1,4 +1,4 @@
-#include "MCP23X17.h"
+#include "MCP23017.h"
 #include <Wire.h>
 
 /**
