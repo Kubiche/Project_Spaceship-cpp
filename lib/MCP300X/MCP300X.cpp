@@ -1,5 +1,5 @@
 #include "MCP300X.h"
-#include <spi.h>
+#include <SPI.h>
 
 /**
  * @brief Sets the objects chip select to HIGH
