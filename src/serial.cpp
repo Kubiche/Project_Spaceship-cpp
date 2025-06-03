@@ -19,13 +19,13 @@ void getSerialCommand()
         delay(5); // allow the whole command to come in
         bool failed = false;
         uint8_t command_buffer[3] = {0}; // Holds the commands to be decoded into actions
-        uint8_t incoming_buffer[3] = {0}; // Holds the incoming data per section
+        uint8_t buffer_buffer[3] = {0}; // Holds the buffer data per section
         uint8_t command_length = 0; // holds the amount of bytes (digits) received in the sections
-        command_length = Serial.readBytesUntil(',', incoming_buffer, 3); // get the data and store the count of bytes
+        command_length = Serial.readBytesUntil(',', buffer_buffer, 3); // get the data and store the count of bytes
         if (command_length > 0)
         {
             debug("CMD: ");
-            command_buffer[0] = parseSerial(incoming_buffer, command_length); // Store the parsed message into the command buffer to be decoded.
+            command_buffer[0] = parseSerial(buffer_buffer, command_length); // Store the parsed message into the command buffer to be decoded.
             if (command_buffer[0] == 255)
             {
                 failed = true;
@@ -37,10 +37,10 @@ void getSerialCommand()
         {
             failed = true;            
         }
-        command_length = Serial.readBytesUntil(',', incoming_buffer, 3); // get the data and store the count of bytes
+        command_length = Serial.readBytesUntil(',', buffer_buffer, 3); // get the data and store the count of bytes
         if (command_length > 0)
         {
-            command_buffer[1] = parseSerial(incoming_buffer, command_length); // Store the parsed message into the command buffer to be decoded.
+            command_buffer[1] = parseSerial(buffer_buffer, command_length); // Store the parsed message into the command buffer to be decoded.
             if (command_buffer[1] == 255)
             {
                 failed = true;
@@ -52,10 +52,10 @@ void getSerialCommand()
         {
             failed = true;            
         }
-        command_length = Serial.readBytesUntil('\n', incoming_buffer, 3); // get the data and store the count of bytes
+        command_length = Serial.readBytesUntil('\n', buffer_buffer, 3); // get the data and store the count of bytes
         if (command_length > 0)
         {
-            command_buffer[2] = parseSerial(incoming_buffer, command_length); // Store the parsed message into the command buffer to be decoded.
+            command_buffer[2] = parseSerial(buffer_buffer, command_length); // Store the parsed message into the command buffer to be decoded.
             if (command_buffer[2] == 255)
             {
                 failed = true;
@@ -79,28 +79,28 @@ void getSerialCommand()
 }
 
 /**
- * @brief Parse the incoming bytes from the serial interface into usable commands
+ * @brief Parse the buffer bytes from the serial interface into usable commands
  * 
- * @param incoming Data from the serial port no including the separator or terminator char
+ * @param buffer Data from the serial port no including the separator or terminator char
  * @param length Didits the buffer contains
  * @return uint8_t Parsed Command
  */
-uint8_t parseSerial(uint8_t (&incoming)[3], uint8_t length)
+uint8_t parseSerial(uint8_t *buffer, uint8_t length)
 {
     uint8_t command = 0;
     if (length == 1)
     {
-        command = convertChar(incoming[0]);
+        command = convertChar(buffer[0]);
         return command;
     }
     if (length == 2)
     {
-        command = ((convertChar(incoming[0]) * 10) + convertChar(incoming[1]));
+        command = ((convertChar(buffer[0]) * 10) + convertChar(buffer[1]));
         return command;
     }
     if (length == 3)
     {
-        command = (convertChar(incoming[0]) * 100) + (convertChar(incoming[1]) * 10) + convertChar(incoming[2]);
+        command = (convertChar(buffer[0]) * 100) + (convertChar(buffer[1]) * 10) + convertChar(buffer[2]);
         return command;
     }
     else
