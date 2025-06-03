@@ -7,7 +7,7 @@
  */
 TIMER::TIMER(int interval)
 {
-    m_interval = interval;
+    _interval = interval;
 }
 
 /**
@@ -25,7 +25,7 @@ void TIMER::start()
  */
 void TIMER::resetTimer()
 {
-    m_last_triggered = millis();    
+    _last_triggered = millis();    
 }
 
 /**
@@ -36,7 +36,7 @@ void TIMER::resetTimer()
  */
 bool TIMER::check()
 {
-    if ((millis() - m_last_triggered) > m_interval)
+    if ((millis() - _last_triggered) > _interval)
     {
         resetTimer();
         return true;

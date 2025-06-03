@@ -10,8 +10,8 @@
 class TIMER
 {
 private:
-    uint64_t m_last_triggered;
-    uint8_t m_interval;
+    uint64_t _last_triggered;
+    uint8_t _interval;
     void resetTimer();    
 
 public:
