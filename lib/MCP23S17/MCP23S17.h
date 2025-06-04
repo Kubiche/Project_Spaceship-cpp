@@ -54,8 +54,8 @@ public:
     void begin(uint8_t CS, uint8_t interrupt_pin); //class constructor
     
 private:
-    uint8_t _cs;
-    uint8_t _interruptPin;
+    uint8_t m_cs;
+    uint8_t m_interruptPin;
         
 };
 
